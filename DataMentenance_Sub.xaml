@@ -1,0 +1,58 @@
+﻿<Window x:Class="ControlChart.DataMentenance_Sub"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlChart"
+        mc:Ignorable="d"
+        Title="DataMentenance_Sub" Width="523" Height="490">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- CSV対象カラム一覧 -->
+        <ListBox x:Name="ItemsListBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="150" Margin="10"
+                 SelectionChanged="ItemsListBox_SelectionChanged"/>
+        
+        <!-- 抽出条件 -->
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="検索列:" Margin="1"/>
+                    <TextBox x:Name="SearchColumn" Width="100" Margin="2" IsReadOnly="True"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+                    <Label Content="検索位置:" Margin="1"/>
+                    <RadioButton x:Name="RdoTop" Content="先頭" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+                    <RadioButton x:Name="RdoEnd" Content="後" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="SearchText" Width="100" Margin="2"/>
+                    <Button x:Name="SearchButton" Content=" 検索 " HorizontalAlignment="Left" Margin="2" Click="SearchButton_Click" VerticalAlignment="Top"/>
+               </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+        <!-- 取込ボタン -->
+        <Button Content="取込" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="30" Margin="10" Click="SelectButton_Click"/>
+
+        <!-- CSVファイル抽出データ -->
+        <DataGrid x:Name="DataGridCtrlData" Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5" Height="450"
+                  VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="取込日時" Binding="{Binding Path=KENSA_DATE}" Width="auto" IsReadOnly="True"/>
+                <DataGridTextColumn Header="測定値" Binding="{Binding Path=DOSE, Mode=TwoWay}" Width="auto"/>
+                <DataGridTextColumn Header="検体番号" Binding="{Binding Path=KentaiNo, Mode=TwoWay}" Width="auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

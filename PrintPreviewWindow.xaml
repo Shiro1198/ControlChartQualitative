@@ -1,0 +1,1443 @@
+﻿<Window x:Class="ControlChart.PrintPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="Print Preview" Height="1122" Width="793">
+    <Grid>
+        <Grid  x:Name="PrintArea" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="1,1,1,1">
+                <Label x:Name="labelDocName" Content="Xbar-Rs-R Control Chart" HorizontalAlignment="Left" Margin="10,0,0,0" />
+                <Button x:Name="PrintList" Content="プリンタ一覧" Margin="5" Click="PrinterList_Click"/>
+                <Button x:Name="PrintButton" Content="印刷" Margin="5" Click="PrintButton_Click"/>
+                <Button x:Name="ExitButton" Content="終了" Margin="5" Click="ExitButton_Click"/>
+                <Label x:Name="labelDate" Content="YYYY 年 MM 月 DD 日" HorizontalAlignment="Right" Margin="350,0,10,0" FontSize="10" />
+            </StackPanel>
+            <!-- ヘッダ -->
+            <Grid x:Name="Header" Grid.Row="1" Margin="1,1,1,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Header Row -->
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock Text="項目コード" Margin="2"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="textK_CODE" Margin="2"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" Background="LightGray" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock Text="検査項目名" Margin="2"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="textK_NAME" Margin="2"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock Text="測定方法" Margin="2"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="textASSAY_STYLE" Margin="2"/>
+                </Border>
+
+                <!-- Data Row 1 -->
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="単位" Margin="2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textASSAY_UNIT_NAME" Margin="2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
+                    <TextBlock Text="管理資料" Margin="2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textMNG_NAME" Margin="2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
+                    <TextBlock Text="Lot No." Margin="2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="textQCLOT_NO" Margin="2"/>
+                </Border>
+
+                <!-- Data Row 2 -->
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.5,0.5,1">
+                    <TextBlock Text="N" Margin="2"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,0.5,0.5,1">
+                    <TextBlock x:Name="textCTRLPARM_DISP_SU" Margin="2"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" Background="LightGray" BorderThickness="0.5,0.5,0.5,1">
+                    <TextBlock Text="実施日" Margin="2"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3"  Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0.5,0.5,1,1">
+                    <TextBlock x:Name="textJissiDate" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Margin="2"/>
+                </Border>
+            </Grid>
+
+            <!-- ■ラベル（Xバー） -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="1,2,1,2">
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="RoyalBlue" Offset="0"/>
+                        <GradientStop Color="WhiteSmoke" Offset="0.493"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <Label Content="X Bar" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" />
+            </StackPanel>
+            <!-- ■チャート（Xバー） -->
+            <Grid Grid.Row="3" Margin="1,1,1,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
+                    <lvc:CartesianChart Name="XBarChart" Grid.Column="0">
+                    </lvc:CartesianChart>
+                </Border>
+                <!-- 平均値表示用のラベル -->
+                <Grid x:Name="XBarGrid" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblUCLValue" Content="UCL" Grid.Row="0" VerticalAlignment="Top" FontSize="10"/>
+                    <Label x:Name="lbl2SDValue" Content="2σ" Grid.Row="1" VerticalAlignment="Top" FontSize="10"/>
+                    <Label x:Name="lblAverageValue" Content="CL" Grid.Row="2" VerticalAlignment="Center" FontSize="10"/>
+                    <Label x:Name="lblMinus2SDValue" Content="-2σ" Grid.Row="3" VerticalAlignment="Bottom" FontSize="10"/>
+                    <Label x:Name="lblLCLValue" Content="LCL" Grid.Row="4" VerticalAlignment="Bottom" FontSize="10"/>
+                </Grid>
+            </Grid>
+
+            <!-- ■Rs チャートのラベル -->
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="1,2,1,2">
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="RoyalBlue" Offset="0"/>
+                        <GradientStop Color="WhiteSmoke" Offset="0.493"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <Label Content="Rs" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" FontWeight="Bold"/>
+            </StackPanel>
+
+            <!-- Rs チャート -->
+            <Grid Grid.Row="5"  Margin="1,1,1,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <Border  BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
+                    <lvc:CartesianChart Name="RsChart" Grid.Column="0">
+                    </lvc:CartesianChart>
+                </Border>
+                <Grid x:Name="RsGrid" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblRsUCL" Content="UCL" Grid.Row="0" VerticalAlignment="Top" FontSize="10"/>
+                    <Label x:Name="lblRs2Sigma" Content="2σ" Grid.Row="1" VerticalAlignment="Top" FontSize="10"/>
+                    <Label x:Name="lblRsAverageValue"  Content="CL" Grid.Row="2" VerticalAlignment="Center" FontSize="10"/>
+                    <Label Content="" Grid.Row="3" VerticalAlignment="Center" FontSize="10"/>
+                    <Label x:Name="lblRsLCL" Content="LCL" Grid.Row="4" VerticalAlignment="Bottom" FontSize="10"/>
+                </Grid>
+            </Grid>
+
+            <!-- ■R チャートのラベル -->
+            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10,2,2,2">
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="RoyalBlue" Offset="0"/>
+                        <GradientStop Color="WhiteSmoke" Offset="0.493"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <Label Content="R" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" FontWeight="Bold"/>
+            </StackPanel>
+            <!-- ■R チャート -->
+            <Grid Grid.Row="7" Margin="1,1,1,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
+                    <lvc:CartesianChart Name="RChart" Grid.Column="0">
+                    </lvc:CartesianChart>
+                </Border>
+                <Grid x:Name="RGrid" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblRUCL" Content="UCL" Grid.Row="0" VerticalAlignment="Top" FontSize="10"/>
+                    <Label Content="" Grid.Row="1" VerticalAlignment="Top"/>
+                    <Label x:Name="lblRAverageValue" Content="CL" Grid.Row="2" VerticalAlignment="Center" FontSize="10"/>
+                    <Label Content="" Grid.Row="3" VerticalAlignment="Top" FontSize="10"/>
+                    <Label x:Name="lblRLCL" Content="LCL" Grid.Row="4" VerticalAlignment="Bottom" FontSize="10"/>
+                </Grid>
+            </Grid>
+
+            <!-- データグリッド -->
+            <!--<Grid Grid.Row="4" ListBox x:Name="L1"/>-->
+            <Grid Name="MainGrid" Grid.Row="8">
+                <!-- 列定義 -->
+                <Grid.ColumnDefinitions>
+                    <!-- 16列を定義 -->
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- 行定義 -->
+                <Grid.RowDefinitions>
+                    <!-- 17行を定義 -->
+                    <RowDefinition Height="Auto" />
+                    <!-- ヘッダ行 -->
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- ヘッダ定義 -->
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0.5,1">
+                    <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="X Bar" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Xmax" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Xmin" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Rs" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="R" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,1,1,1">
+                    <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,1">
+                    <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="X Bar" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Xmax" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Xmin" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="Rs" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
+                    <TextBlock Text="R" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,1">
+                    <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                </Border>
+
+                <!-- データ定義 -->
+                <!-- 1行目 -->
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar1" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax1" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin1" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs1" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R1" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar17" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax17" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin17" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs17" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R17" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 2行目 -->
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar2" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax2" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin2" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs2" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R2" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar18" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax18" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin18" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs18" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R18" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 3行目 -->
+                <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar3" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax3" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin3" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs3" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R3" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar19" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax19" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin19" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs19" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R19" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 4行目 -->
+                <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar4" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax4" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin4" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs4" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R4" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar20" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax20" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin20" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs20" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R20" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 5行目 -->
+                <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar5" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax5" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin5" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs5" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R5" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar21" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax21" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin21" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs21" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R21" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 6行目 -->
+                <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar6" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax6" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin6" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs6" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R6" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar22" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax22" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin22" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs22" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R22" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 7行目 -->
+                <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar7" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax7" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin7" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs7" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R7" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar23" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax23" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin23" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs23" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R23" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="7" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 8行目 -->
+                <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar8" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax8" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin8" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs8" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R8" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar24" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax24" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin24" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs24" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R24" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="8" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 9行目 -->
+                <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar9" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax9" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin9" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs9" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R9" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar25" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax25" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin25" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs25" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R25" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="9" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 10行目 -->
+                <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar10" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax10" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin10" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs10" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R10" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar26" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax26" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin26" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs26" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R26" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="10" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 11行目 -->
+                <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar11" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax11" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin11" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs11" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R11" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar27" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax27" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin27" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs27" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R27" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="11" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 12行目 -->
+                <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar12" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax12" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin12" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs12" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R12" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar28" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax28" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin28" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs28" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R28" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="12" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 13行目 -->
+                <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar13" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax13" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin13" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs13" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R13" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar29" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax29" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin29" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs29" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R29" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="13" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 14行目 -->
+                <Border Grid.Row="14" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq14"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar14" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax14" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin14" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs14" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R14" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar30" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax30" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin30" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs30" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R30" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="14" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 15行目 -->
+                <Border Grid.Row="15" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar15" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax15" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin15" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs15" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R15" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar31" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax31" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin31" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs31" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R31" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="15" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 16行目 -->
+                <Border Grid.Row="16" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock x:Name="Seq16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Date16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xbar16" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmax16" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Xmin16" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="Rs16" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="R16" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+                    <TextBlock x:Name="Lot16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,0.5">
+                    <TextBlock x:Name="Seq32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Date32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xbar32" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmax32" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="12" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Xmin32" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="Rs32" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,0.5">
+                    <TextBlock x:Name="R32" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="16" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,0.5">
+                    <TextBlock x:Name="Lot32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+
+            </Grid>
+
+            <!-- 管理データ -->
+            <Grid Name="KanriDataGrid" Grid.Row="9" Margin="5,5,5,0">
+                <!-- 列定義 -->
+                <Grid.ColumnDefinitions>
+                    <!-- 15列を定義 -->
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- 行定義 -->
+                <Grid.RowDefinitions>
+                    <!-- 7行を定義 -->
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!-- ■■■ X Bar ヘッダー ■■■ -->
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="Control Values" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理線" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="計算値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="X Bar" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="0"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="0"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="LCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- X Bar -->
+                <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textXbar" Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textXbar_M" Text="X_K" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+
+                <!-- X Bar UCL -->
+                <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_Xbar" Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="text2Sigma_Xber" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_Xbar_M" Text="UCL_K" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="text2Sigma_Xber_M" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- X Bar LCL -->
+                <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textMinus2Sigma_Xbar" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textLCL_Xbar" Text="LCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textMinus2Sigma_Xbar_M" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textLCL_Xbar_M" Text="LCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+
+                <!-- ■■■　Rs ヘッダー ■■■ -->
+                <Border Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="Rs Control Values" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4"  Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理線" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="計算値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="7" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"  BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="Rs" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="4"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="4"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="LCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- Rs -->
+                <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textRs" Text="Rs" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textRs_M" Text="Rs_K" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- Rs UCL -->
+                <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_Rs" Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="text2Sigma_Rs" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_Rs_M" Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="text2Sigma_Rs_M" Text="2Sigma" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- Rs LCL -->
+                <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- ■■■　R ヘッダー ■■■ -->
+                <Border Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="R Control Values" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="8"  Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理線" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="計算値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="11" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="管理値" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2"  BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="R" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="8"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="8"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="LCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="3SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="2SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- R -->
+                <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textR" Text="Rs" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textR_M" Text="Rs_K" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- R UCL -->
+                <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_R" Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL2Sigma_R" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL_R_M" Text="UCL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textUCL2Sigma_R_M" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- R LCL -->
+                <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Text="－" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- ■■■　変動 ヘッダー ■■■ -->
+                <Border Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="Dispersion" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="12" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="日内変動" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="CV" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="12" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="日間変動" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="CV" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="12" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="総変動" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="SD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="CV" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                </Border>
+                <!-- 変動データ（日内） -->
+                <Border Grid.Column="14" BorderBrush="Black" BorderThickness="0.5" Height="15" Margin="0,14,0,0" Grid.RowSpan="3" VerticalAlignment="Top">
+                    <TextBlock x:Name="textSD" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textCV" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- 変動データ（日間） -->
+                <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textSD_N" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textCV_N" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <!-- 変動データ（日間） -->
+                <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textSD_S" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock x:Name="textCV_S" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+            </Grid>
+            <!-- 印鑑フィールド -->
+            <Grid Name="InkanGrid" Grid.Row="10" Margin="10,10,11,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="70" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                    <TextBlock Text="記事" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,1,1">
+                    <Label Content=""/>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="精度管理&#x0a;責任者" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <Label Content=""/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="部長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <Label Content=""/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="課長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <Label Content=""/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="係長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <Label Content=""/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <TextBlock Text="担当者" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+                    <Label Content=""/>
+                </Border>
+            </Grid>
+            <!-- クリニック名 -->
+            <Grid Name="ClinicName" Grid.Row="11" VerticalAlignment="Bottom">
+                <Label Content="医療法人社団　慶幸会" HorizontalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

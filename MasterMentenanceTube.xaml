@@ -1,0 +1,58 @@
+﻿<Window x:Class="ControlChart.MasterMentenanceTube"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlChart"
+        mc:Ignorable="d"
+        Title="MasterMentenanceTube" Height="350" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- チューブコードのドロップダウン（編集可能） -->
+        <Label Content="チューブコード:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        <TextBox x:Name="tubeCodeTextBox" Grid.Row="0" Grid.Column="1" Margin="5" Width="200"/>
+
+        <!-- チューブ名称のテキストボックス（入力用） -->
+        <Label Content="チューブ名称:" Grid.Row="1" Grid.Column="0" Margin="5"/>
+        <TextBox x:Name="tubeNameTextBox" Grid.Row="1" Grid.Column="1" Margin="5" Width="200"/>
+
+        <!-- チューブ略称のテキストボックス（入力用） -->
+        <Label Content="チューブ略称:" Grid.Row="2" Grid.Column="0" Margin="5"/>
+        <TextBox x:Name="tubeShortNameTextBox" Grid.Row="2" Grid.Column="1" Margin="5" Width="200"/>
+
+        <!-- データグリッド -->
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+            <DataGrid x:Name="dataGrid" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False"
+                Margin="2" SelectionChanged="DataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="コード" Binding="{Binding Path=TUBE_CODE}" Width="auto"/>
+                    <DataGridTextColumn Header="名称" Binding="{Binding Path=TUBE_NAME}" Width="auto"/>
+                    <DataGridTextColumn Header="略称" Binding="{Binding Path=TUBE_RYAK}" Width="auto"/>
+                    <DataGridTextColumn Header="作成日" Binding="{Binding Path=CREATE_DATE}" Width="auto"/>
+                    <DataGridTextColumn Header="更新日" Binding="{Binding Path=UPDATE_DATE}" Width="auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!-- ラジオボタン -->
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+            <RadioButton x:Name="optionUpdate" Content="更新" GroupName="Options" Checked="optionUpdate_Checked" Margin="10"/>
+            <RadioButton x:Name="optionAddid" Content="新規" GroupName="Options" Checked="optionAddid_Checked" Margin="10"/>
+            <RadioButton x:Name="optionDelete" Content="削除" GroupName="Options" Checked="optionDelete_Checked" Margin="10"/>
+        </StackPanel>
+        <!-- ボタン -->
+        <Button x:Name="registerButton" Grid.Row="1" Grid.Column="2" Content="実行" Margin="5" Width="80" Click="registerButton_Click"/>
+        <Button x:Name="closeButton"  Grid.Row="2" Grid.Column="2" Content="閉じる" Margin="5" Width="80" Click="btnExit_Click"/>
+    </Grid>
+
+</Window>

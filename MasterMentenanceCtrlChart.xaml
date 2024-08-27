@@ -1,0 +1,102 @@
+﻿<Window x:Class="ControlChart.MasterMentenanceCtrlChart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlChart"
+        mc:Ignorable="d"
+        Title="MasterMentenanceCtrlChart" Height="600" Width="650">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="コード:" Grid.Row="0" Grid.Column="0" Margin="2"/>
+        <TextBox x:Name="TxtK_CODE" Grid.Row="0" Grid.Column="1" Margin="2" Width="200" HorizontalAlignment="Left"/>
+        <Label Content="区分:" Grid.Row="0" Grid.Column="2" Margin="2"/>
+        <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <RadioButton x:Name="RdoBlood" Content="血液" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoBiochemistry" Content="生化" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoUrine" Content="尿" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoOther" Content="その他" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Label Content="名称:" Grid.Row="1" Grid.Column="0" Margin="2"/>
+        <TextBox x:Name="TxtK_NAME" Grid.Row="1" Grid.Column="1" Margin="2" Width="200" HorizontalAlignment="Left"/>
+        <Label Content="略称:" Grid.Row="1" Grid.Column="2" Margin="2"/>
+        <TextBox x:Name="TxtK_RYAK" Grid.Row="1" Grid.Column="3" Margin="2" Width="200" HorizontalAlignment="Left"/>
+
+        <Label Content="検査方法:" Grid.Row="2" Grid.Column="0" Margin="2"/>
+        <TextBox x:Name="TxtASSAY_STYLE" Grid.Row="2" Grid.Column="1" Margin="2" Width="200" HorizontalAlignment="Left"/>
+        <Label Content="検査単位:" Grid.Row="2" Grid.Column="2" Margin="2"/>
+        <TextBox x:Name="TxtASSAY_UNIT_NAME" Grid.Row="2" Grid.Column="3" Margin="2" Width="200" HorizontalAlignment="Left"/>
+
+        <Button x:Name="controlButton" Content=" コントロール登録 " Grid.Row="3" Grid.Column="1" Margin="1" Click="controlButton_Click" HorizontalAlignment="Left"/>
+
+        <Border Height="1" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
+
+        <Label Content="有効桁:" Grid.Row="5" Grid.Column="0" Margin="2"/>
+        <TextBox x:Name="TxtVALID_COL" Grid.Row="5" Grid.Column="1" Margin="2" Width="50" HorizontalAlignment="Left"/>
+        <Label Content="丸目条件:" Grid.Row="5" Grid.Column="2" Margin="2"/>
+        <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <RadioButton x:Name="RdoRounding" Content="四捨五入" GroupName="RoundUp" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoRoundDown" Content="切り捨て" GroupName="RoundUp" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoRoundUp" Content="切り上げ" GroupName="RoundUp" Margin="2" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Label Content="取込選択区分:" Grid.Row="6" Grid.Column="0" Margin="2"/>
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <RadioButton x:Name="RdoTop" Content="TOPからN本" GroupName="Selection" Margin="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="RdoRandom" Content="ランダムにN本" GroupName="Selection" Margin="2" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Label Content="備考:" Grid.Row="7" Grid.Column="0" Margin="2"/>
+        <TextBox x:Name="TxtMEMO_INF" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" Width="500" HorizontalAlignment="Left"/>
+        
+        <Border Height="1" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
+
+        <!-- データグリッド -->
+        <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,5,0,5" Width="620">
+            <DataGrid x:Name="dataGrid" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False"
+                Margin="2" SelectionChanged="DataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="コード" Binding="{Binding Path=K_CODE}" Width="auto"/>
+                    <DataGridTextColumn Header="名称" Binding="{Binding Path=K_NAME}" Width="auto"/>
+                    <DataGridTextColumn Header="略称" Binding="{Binding Path=K_RYAK}" Width="auto"/>
+                    <DataGridTextColumn Header="作成日" Binding="{Binding Path=CREATE_DATE}" Width="auto"/>
+                    <DataGridTextColumn Header="更新日" Binding="{Binding Path=UPDATE_DATE}" Width="auto"/>
+                    <DataGridTextColumn Header="備考" Binding="{Binding Path=MEMO_INF}" Width="auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Border Height="1" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
+
+        <!-- ボタン -->
+        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3">
+            <RadioButton x:Name="optionUpdate" Content="更新" GroupName="Options" Margin="10,10,10,10" HorizontalAlignment="Left"/>
+            <RadioButton x:Name="optionAddid" Content="新規" GroupName="Options" Margin="10" HorizontalAlignment="Left"/>
+            <RadioButton x:Name="optionDelete" Content="削除" GroupName="Options" Margin="10" HorizontalAlignment="Left"/>
+
+            <Button x:Name="registerButton" Content="実行" Margin="5" Width="80" Click="registerButton_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="closeButton"  Content="閉じる" Margin="5" Width="80" Click="btnExit_Click" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
