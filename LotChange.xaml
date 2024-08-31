@@ -31,7 +31,16 @@
         <TextBox x:Name="TxtK_CODE" Grid.Row="0" Grid.Column="1" Margin="2" Width="100" HorizontalAlignment="Left" IsReadOnly="True"/>
 
         <Label Content="コントロール:" Grid.Row="0" Grid.Column="2" Margin="2"/>
-        <TextBox x:Name="TxtTUBE_CODE" Grid.Row="0" Grid.Column="3" Margin="2" Width="100" HorizontalAlignment="Left" IsReadOnly="True"/>
+        <ComboBox x:Name="CmbCtrlList" Grid.Row="0" Grid.Column="3" Width="100" SelectionChanged="CmbTubeList_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding CtrlCode}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding CtrlName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,5,0,5" Width="620" Height="201">
             <DataGrid x:Name="dataGridLot" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False" Margin="2">

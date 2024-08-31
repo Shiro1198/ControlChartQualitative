@@ -37,7 +37,8 @@ namespace ControlChart
 
         // チャートマスタのレコード
         private M_CTRL_CHART mCtrlChart = new M_CTRL_CHART();
-        private M_CTRL_TUBE mCtrlTube = new M_CTRL_TUBE();
+        private List<M_CTRL_TUBE> mCtrlTube = new List<M_CTRL_TUBE>();
+        private List<string> yLabels = new List<string>();
 
         public string SelectOption { get; set; } = "All";  // ラジオボタンの選択オプション
 
@@ -49,6 +50,14 @@ namespace ControlChart
 
             SelectOption = "All";   // ラジオボタンの初期値を設定
 
+            Chart_1.Series.Clear();
+            Chart_1.AxisX.Clear();
+            Chart_1.AxisY.Clear();
+
+            Chart_2.Series.Clear();
+            Chart_2.AxisX.Clear();
+            Chart_2.AxisY.Clear();
+
             DataContext = this;
             // Loadedイベントにハンドラを追加
             this.Loaded += MainWindow_Loaded;
@@ -56,7 +65,7 @@ namespace ControlChart
             // LiveChartsのマッピング設定
             var mapper = Mappers.Xy<DateModel>()
                 .X(model => model.Sequence)
-                .Y(model => model.Value);
+                .Y(model => model.Index);
 
             Charting.For<DateModel>(mapper);
         }
@@ -153,7 +162,6 @@ namespace ControlChart
                     }
                 }
                 this.CmbItemList.ItemsSource = cmbItems;
-                this.CmbCtrlList.ItemsSource = cmbCtrl;
 
                 PrintButton.IsEnabled = false;              // 印刷ボタンを無効にする
                 LotChangeButton.IsEnabled = false;          // ロット変更ボタンを無効にする
@@ -218,91 +226,54 @@ namespace ControlChart
         /// コントロールチャートを更新する
         /// </summary>
         /// <param name="data"></param>
-        private bool DisplayCharts(List<DateValue> data)
+        private bool DisplayCharts(List<DateValue> data, int tubeNo)
         {
             ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
 
-            // 日付ごとにグループ化し、ロット番号も取得
-            var groupedData = data.GroupBy(d => new { d.Date, d.LotNumber })
-                                  .Select(g => new { g.Key.Date, g.Key.LotNumber, Values = g.Select(d => d.Value).ToList() }).ToList();
-            if (groupedData.Count <= 1)
-            {
-                MessageBox.Show("対象データが２日以上ありません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Information);
-                return false;
-            }
-
-            int significantDigits = int.Parse(mCtrlChart.VALID_COL.Substring(0, 1));    // 有効桁数
-            int decimalPlaces = int.Parse(mCtrlChart.VALID_COL.Substring(1, 1));        // 小数点以下桁数
-            int roundingMode = mCtrlChart.MARU_COND;                                    // 丸め条件
-
             // チャートに表示するデータを作成
-            var averages = new ChartValues<DateModel>();
-            var ranges = new ChartValues<DateModel>();
-            var rangeStandard = new ChartValues<DateModel>();
+            var qualitativeData = new ChartValues<DateModel>();
+            // AppSettingsを取得　<add key="Y-Axis1005" value="4+,3+,2+,1+,normal"/>
+            string appKey = "Y-Axis" + mCtrlChart.K_CODE;
+            string appVal = ConfigurationManager.AppSettings[appKey];
+            yLabels = new List<string>(appVal.Split(','));
 
             int sequence = 1;
-            var befAvg = 0.0;
-            foreach (var group in groupedData)
+            foreach (var dt in data)
             {
-                // 平均値
-                string strAve = controlChartCalculator.Marume(group.Values.Average(), significantDigits, decimalPlaces + 1, roundingMode);
-                var avg = Math.Round(double.Parse(strAve), decimalPlaces + 1);
-                // 最大値を取得
-                string strMax = controlChartCalculator.Marume(group.Values.Max(), significantDigits, decimalPlaces, roundingMode);
-                var max = Math.Round(double.Parse(strMax), decimalPlaces);
-                // 最小値を取得
-                string strMin = controlChartCalculator.Marume(group.Values.Min(), significantDigits, decimalPlaces, roundingMode);
-                var min = Math.Round(double.Parse(strMin), decimalPlaces);
-                // レンジを取得
-                var range = Math.Round(max - min, decimalPlaces);
-                // 日差
-                var rs = sequence == 1 ? 0 : Math.Round(Math.Abs(avg - befAvg), decimalPlaces + 1);
-                // データ数を取得
-                var count = group.Values.Count();
-
-                averages.Add(new DateModel { Sequence = sequence, DateTime = group.Date, Value = avg, Max = max, Min = min, Count = count, LotNumber = group.LotNumber });
-                rangeStandard.Add(new DateModel { Sequence = sequence, DateTime = group.Date, Value = rs, Count = count, LotNumber = group.LotNumber });
-                ranges.Add(new DateModel { Sequence = sequence, DateTime = group.Date, Value = range, Count = count, LotNumber = group.LotNumber });
-                befAvg = avg;
+                int index = yLabels.IndexOf(dt.Value);
+                qualitativeData.Add(new DateModel { Sequence = sequence, DateTime = dt.Date, Index = index, Value = dt.Value, LotNumber = dt.LotNumber });
                 sequence++;
             }
 
-            var gridData = averages.Zip(ranges, (avg, range) => new
-            {
-                avg.Sequence,
-                avg.DateTime,
-                Average = controlChartCalculator.ConvertDoubleToString(avg.Value, decimalPlaces + 1),
-                Range = controlChartCalculator.ConvertDoubleToString(range.Value, decimalPlaces),
-                Max = controlChartCalculator.ConvertDoubleToString(avg.Max, decimalPlaces),
-                Min = controlChartCalculator.ConvertDoubleToString(avg.Min, decimalPlaces),
-                avg.Count,
-                avg.LotNumber
-            }).Zip(rangeStandard, (temp, rs) => new
-            {
-                temp.Sequence,
-                temp.DateTime,
-                temp.Average,
-                temp.Range,
-                temp.Max,
-                temp.Min,
-                temp.Count,
-                temp.LotNumber,
-                RangeStandard = controlChartCalculator.ConvertDoubleToString(rs.Value, decimalPlaces + 1)
-            });
-            DataGridView.ItemsSource = gridData;        // データグリッドに全ての値を表示
+            //var gridData = averages.Zip(ranges, (avg, range) => new
+            //{
+            //    avg.Sequence,
+            //    avg.DateTime,
+            //    Average = controlChartCalculator.ConvertDoubleToString(avg.Value, decimalPlaces + 1),
+            //    Range = controlChartCalculator.ConvertDoubleToString(range.Value, decimalPlaces),
+            //    Max = controlChartCalculator.ConvertDoubleToString(avg.Max, decimalPlaces),
+            //    Min = controlChartCalculator.ConvertDoubleToString(avg.Min, decimalPlaces),
+            //    avg.Count,
+            //    avg.LotNumber
+            //}).Zip(rangeStandard, (temp, rs) => new
+            //{
+            //    temp.Sequence,
+            //    temp.DateTime,
+            //    temp.Average,
+            //    temp.Range,
+            //    temp.Max,
+            //    temp.Min,
+            //    temp.Count,
+            //    temp.LotNumber,
+            //    RangeStandard = controlChartCalculator.ConvertDoubleToString(rs.Value, decimalPlaces + 1)
+            //});
 
             // シーケンス番号のリストを作成
             List<string> sequenceLabels = new List<string> { "" };
-            sequenceLabels.AddRange(averages.Select(av => av.Sequence.ToString()));
-            int intN = mCtrlTube.CTRLPARM_DISP_SU;      // サンプル数
-            dspChart_XBar(averages, rangeStandard, sequenceLabels, intN);
-            dspChart_Rs(averages, rangeStandard, sequenceLabels, intN);
-            dspChart_R(ranges, sequenceLabels, intN);
+            sequenceLabels.AddRange(qualitativeData.Select(av => av.Sequence.ToString()));
 
-            // チャートをリフレッシュ
-            XBarChart.Update(true, true);
-            RsChart.Update(true, true);
-            RChart.Update(true, true);
+            dspChart(qualitativeData, sequenceLabels, tubeNo);
+
 
             return true;
         }
@@ -313,51 +284,52 @@ namespace ControlChart
         /// </summary>
         /// <param name="averages"></param>
         /// <param name="sequenceLabels"></param>
-        private void dspChart_XBar(ChartValues<DateModel> averages, ChartValues<DateModel> rangeStandard, List<string> sequenceLabels, int N)
+        private void dspChart(ChartValues<DateModel> qualitativeData, List<string> sequenceLabels, int tubeNo)
         {
-            int significantDigits = int.Parse(mCtrlChart.VALID_COL.Substring(0, 1));    // 有効桁数
-            int decimalPlaces = int.Parse(mCtrlChart.VALID_COL.Substring(1, 1));        // 小数点以下桁数
-            int roundingMode = mCtrlChart.MARU_COND;                                    // 丸め条件
-
             ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
-
-            // 平均
-            string strAverage = controlChartCalculator.Marume(averages.Average(a => a.Value), significantDigits, decimalPlaces + 1, roundingMode);
-            var overallAverage = double.Parse(strAverage);
-
-            // UCLとLCL
-            var (ucl, lcl) = controlChartCalculator.Calculate_XbarChart(overallAverage, averages, rangeStandard, N);
-            string strUCL = controlChartCalculator.Marume(ucl, significantDigits, decimalPlaces + 1, roundingMode);
-            var UCL = double.Parse(strUCL);
-            var strLCL = controlChartCalculator.Marume(lcl, significantDigits, decimalPlaces + 1, roundingMode);
-            var LCL = double.Parse(strLCL);
-            var (ucl2sigma, lcl2sigma) = controlChartCalculator.Calculate2Sigma_XbarChart(overallAverage, averages, rangeStandard, N);
-            string strUCL2Sigma = controlChartCalculator.Marume(ucl2sigma, significantDigits, decimalPlaces + 1, roundingMode);
-            var UCL2Sigma = double.Parse(strUCL2Sigma);
-            var strLCL2Sigma = controlChartCalculator.Marume(lcl2sigma, significantDigits, decimalPlaces + 1, roundingMode);
-            var LCL2Sigma = double.Parse(strLCL2Sigma);
-
-            // 標準偏差,2SD,3SDの計算
-            var standardDeviation = Math.Sqrt(averages.Average(a => Math.Pow(a.Value - overallAverage, 2)));
-            var cv = standardDeviation / overallAverage;
-            var plus2SD = overallAverage + (2 * (cv * overallAverage));
-            var minus2SD = overallAverage - (2 * (cv * overallAverage));
-
-            XBarChart.Series.Clear();
-            XBarChart.AxisX.Clear();
-            XBarChart.AxisY.Clear();
+            switch(tubeNo)
+            {
+                case 0:
+                    Chart_1.Series.Clear();
+                    Chart_1.AxisX.Clear();
+                    Chart_1.AxisY.Clear();
+                    this.Name_1.Content = mCtrlTube[tubeNo].MNG_NAME;
+                    var gridData1 = qualitativeData;
+                    DataGridView_1.ItemsSource = gridData1;        // データグリッドに全ての値を表示
+                    break;
+                case 1:
+                    Chart_2.Series.Clear();
+                    Chart_2.AxisX.Clear();
+                    Chart_2.AxisY.Clear();
+                    this.Name_2.Content = mCtrlTube[tubeNo].MNG_NAME;
+                    var gridData2 = qualitativeData;
+                    DataGridView_2.ItemsSource = gridData2;        // データグリッドに全ての値を表示
+                    break;
+                default:
+                    return;
+            }
 
             // LotNumberの変化を検出し、変化点でセグメントを分割する
-            var currentLotNumber = averages.First().LotNumber;
+            var currentLotNumber = qualitativeData.First().LotNumber;
             var currentSegment = new ChartValues<DateModel>();
             var colors = new List<Brush> { Brushes.Blue, Brushes.Red, Brushes.Green, Brushes.Orange, Brushes.Purple };
             int colorIndex = 0;
-            foreach (var data in averages)
+            foreach (var data in qualitativeData)
             {
                 if (data.LotNumber != currentLotNumber)
                 {
                     // 新しいセグメントを追加
-                    controlChartCalculator.AddSegmentToChart(XBarChart, currentSegment, colors[colorIndex % colors.Count], "Xbar");
+                    switch(tubeNo)
+                    {
+                        case 0:
+                            controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Chart1");
+                            break;
+                        case 1:
+                            controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Chart2");
+                            break;
+                        default:
+                            break;
+                    }
                     colorIndex++;
                     currentSegment = new ChartValues<DateModel>();
                     currentLotNumber = data.LotNumber;
@@ -365,7 +337,17 @@ namespace ControlChart
                 currentSegment.Add(data);
             }
             // 最後のセグメントを追加
-            controlChartCalculator.AddSegmentToChart(XBarChart, currentSegment, colors[colorIndex % colors.Count], "Xbar");
+            switch(tubeNo)
+            {
+                case 0:
+                    controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Chart1");
+                    break;
+                case 1:
+                    controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Chart2");
+                    break;
+                default:
+                    break;
+            }
 
             // X軸の設定
             var axisX = new Axis
@@ -376,212 +358,62 @@ namespace ControlChart
                 MinValue = 1,
                 MaxValue = sequenceLabels.Count - 1
             };
-            XBarChart.AxisX.Add(axisX);
-
+            switch(tubeNo)
+            {
+               case 0:
+                    Chart_1.AxisX.Add(axisX);
+                    break;
+                case 1:
+                    Chart_2.AxisX.Add(axisX);
+                    break;
+                default:
+                    break;
+            }
             // Y軸の設定
             var axisY = new Axis
             {
                 Title = "",
-                MinValue = LCL,
-                MaxValue = UCL,
+                Labels = yLabels,
+                MinValue = 0,                   // "Normal" のインデックス
+                MaxValue = yLabels.Count - 1,   // "4+" のインデックス
             };
-            XBarChart.AxisY.Add(axisY);
-
+            switch(tubeNo)
+            {
+                case 0:
+                    Chart_1.AxisY.Add(axisY);
+                    break;
+                case 1:
+                    Chart_2.AxisY.Add(axisY);
+                    break;
+                default:
+                    break;
+            }
             // 2SDおよび3SDのラインをチャートに追加
-            controlChartCalculator.AddConstantLine(XBarChart, UCL, "UCL", Brushes.Orange, null);                                    // 実線で表示
-            controlChartCalculator.AddConstantLine(XBarChart, UCL2Sigma, "2σ", Brushes.Orange, new DoubleCollection { 1, 2 });     // 点線で表示
-            controlChartCalculator.AddConstantLine(XBarChart, overallAverage, "平均", Brushes.Blue, new DoubleCollection { 2, 2 }); // 破線で表示
-            controlChartCalculator.AddConstantLine(XBarChart, LCL2Sigma, "-2σ", Brushes.Orange, new DoubleCollection { 1, 2 });
-            controlChartCalculator.AddConstantLine(XBarChart, LCL, "LCL", Brushes.Orange, null);
+            //controlChartCalculator.AddConstantLine(XBarChart, UCL, "UCL", Brushes.Orange, null);                                    // 実線で表示
+            //controlChartCalculator.AddConstantLine(XBarChart, UCL2Sigma, "2σ", Brushes.Orange, new DoubleCollection { 1, 2 });     // 点線で表示
+            //controlChartCalculator.AddConstantLine(XBarChart, overallAverage, "平均", Brushes.Blue, new DoubleCollection { 2, 2 }); // 破線で表示
+            //controlChartCalculator.AddConstantLine(XBarChart, LCL2Sigma, "-2σ", Brushes.Orange, new DoubleCollection { 1, 2 });
+            //controlChartCalculator.AddConstantLine(XBarChart, LCL, "LCL", Brushes.Orange, null);
 
-            lblXBarCv.Content = $"CV: {(cv * 100):F2} %";
-            lblXBarStandardDeviation.Content = $"SD: {standardDeviation:F3}";
-            lblUCLValue.Content = $"UCL: {strUCL}";
-            lbl2SDValue.Content = $"+2σ: {strUCL2Sigma}";
-            lblAverageValue.Content = $"CL: {strAverage}";
-            lblMinus2SDValue.Content = $"-2σ: {strLCL2Sigma}";
-            lblLCLValue.Content = $"LCL: {strLCL}";
-        }
-
-        /// <summary>
-        /// Rsチャートを表示する
-        /// </summary>
-        /// <param name="rangeStandard"></param>
-        /// <param name="sequenceLabels"></param>
-        private void dspChart_Rs(ChartValues<DateModel> averages, ChartValues<DateModel> rangeStandard, List<string> sequenceLabels, int N)
-        {
-            int significantDigits = int.Parse(mCtrlChart.VALID_COL.Substring(0, 1));    // 有効桁数
-            int decimalPlaces = int.Parse(mCtrlChart.VALID_COL.Substring(1, 1));        // 小数点以下桁数
-            int roundingMode = mCtrlChart.MARU_COND;                                    // 丸め条件
-
-            ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
-
-            // 平均
-            var rs = rangeStandard.Where(a => a.Sequence != 1).Average(a => a.Value);
-            string strRs = controlChartCalculator.Marume(rs, significantDigits, decimalPlaces + 1, roundingMode);
-            var overallAverageRs = double.Parse(strRs);
-            // UCL
-            var ucl = controlChartCalculator.Calculate_RsChart(overallAverageRs, N);
-            var rsUCL = Math.Round(ucl, decimalPlaces + 1);
-            var ucl2 = controlChartCalculator.Calculate2Siggma_RsChart(overallAverageRs, N);
-            var rsUCL2Sigma = Math.Round(ucl2, decimalPlaces + 1);
-            // LCL
-            var rsLCL = 0.0;
-
-            // 標準偏差の計算（標本標準偏差）
-            var variance = rangeStandard.Where(a => a.Sequence != 1).Average(a => Math.Pow(a.Value - overallAverageRs, 2));
-            var standardDeviation = Math.Round(Math.Sqrt(variance), 3);
-            // 変動係数の計算
-            var cv = Math.Round(standardDeviation / overallAverageRs, 2);
-
-            RsChart.Series.Clear();
-            RsChart.AxisX.Clear();
-            RsChart.AxisY.Clear();
-
-            // X軸の設定
-            var rsAxisX = new Axis
+            //lblXBarCv.Content = $"CV: {(cv * 100):F2} %";
+            //lblXBarStandardDeviation.Content = $"SD: {standardDeviation:F3}";
+            //lblUCLValue.Content = $"UCL: {strUCL}";
+            //lbl2SDValue.Content = $"+2σ: {strUCL2Sigma}";
+            //lblAverageValue.Content = $"CL: {strAverage}";
+            //lblMinus2SDValue.Content = $"-2σ: {strLCL2Sigma}";
+            //lblLCLValue.Content = $"LCL: {strLCL}";
+            // チャートをリフレッシュ
+            switch(tubeNo)
             {
-                Title = "",
-                Labels = sequenceLabels,
-                Separator = new LiveCharts.Wpf.Separator { Step = 1 },
-                MinValue = 1,
-                MaxValue = sequenceLabels.Count - 1
-            };
-            RsChart.AxisX.Add(rsAxisX);
-
-            // Y軸の設定
-            var rsAxisY = new Axis
-            {
-                Title = "",
-                MinValue = 0,
-                MaxValue = rsUCL,
-            };
-            RsChart.AxisY.Add(rsAxisY);
-
-
-            // LotNumberの変化を検出し、変化点でセグメントを分割する
-            var currentLotNumber = rangeStandard.First().LotNumber;
-            var currentSegment = new ChartValues<DateModel>();
-            var colors = new List<Brush> { Brushes.Blue, Brushes.Red, Brushes.Green, Brushes.Orange, Brushes.Purple };
-            int colorIndex = 0;
-
-            foreach (var data in rangeStandard)
-            {
-                if (data.LotNumber != currentLotNumber)
-                {
-                    // 新しいセグメントを追加
-                    controlChartCalculator.AddSegmentToChart(RsChart, currentSegment, colors[colorIndex % colors.Count], "Rs");
-                    colorIndex++;
-                    currentSegment = new ChartValues<DateModel>();
-                    currentLotNumber = data.LotNumber;
-                }
-                if (data.Sequence == 1)
-                    data.Value = double.NaN;
-                currentSegment.Add(data);
+                case 0:
+                    Chart_1.Update(true, true);
+                    break;
+                case 1:
+                    Chart_2.Update(true, true);
+                    break;
+                default:
+                    break;
             }
-            // 最後のセグメントを追加
-            controlChartCalculator.AddSegmentToChart(RsChart, currentSegment, colors[colorIndex % colors.Count],"Rs");
-
-            // 平均（実線）、UCL（破線）のラインをチャートに追加
-            controlChartCalculator.AddConstantLine(RsChart, overallAverageRs, "CL", Brushes.Blue, new DoubleCollection { 2, 2 });
-            controlChartCalculator.AddConstantLine(RsChart, rsUCL, "UCL", Brushes.Orange, null);
-            controlChartCalculator.AddConstantLine(RsChart, rsUCL2Sigma, "2σ", Brushes.Orange, new DoubleCollection { 1, 2 });
-            controlChartCalculator.AddConstantLine(RsChart, rsLCL, "", Brushes.Orange, null);
-
-            // 管理値Rsをラベルに表示
-            var overallAverage = averages.Where(a => a.Sequence != 1).Average(a => a.Value);
-
-            // 平均、UCLをラベルに表示
-            lblRsCv.Content = $"CV: {cv:F2} %";
-            lblRsStandardDeviation.Content = $"SD: {standardDeviation:F3}";
-
-            lblRsAverageValue.Content = $"CL: {strRs}";
-            lblRsUCL.Content = $"UCL: {controlChartCalculator.ConvertDoubleToString(rsUCL, decimalPlaces + 1)}";
-            lblRs2Sigma.Content = $"2σ: {controlChartCalculator.ConvertDoubleToString(rsUCL2Sigma, decimalPlaces + 1)}";
-            lblRsLCL.Content = $"{controlChartCalculator.ConvertDoubleToString(rsLCL, decimalPlaces + 1)}";
-        }
-
-        /// <summary>
-        /// Rチャートを表示する
-        /// </summary>
-        /// <param name="ranges"></param>
-        /// <param name="sequenceLabels"></param>
-        private void dspChart_R(ChartValues<DateModel> ranges, List<string> sequenceLabels, int N)
-        {
-            int significantDigits = int.Parse(mCtrlChart.VALID_COL.Substring(0, 1));    // 有効桁数
-            int decimalPlaces = int.Parse(mCtrlChart.VALID_COL.Substring(1, 1));        // 小数点以下桁数
-            int roundingMode = mCtrlChart.MARU_COND;                                    // 丸め条件
-
-            ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
-
-            // RチャートのY軸の最小値と最大値を設定
-            var r = ranges.Average(a => a.Value);
-            string strR = controlChartCalculator.Marume(r, significantDigits, decimalPlaces + 1, roundingMode);
-            var overallAverageR = double.Parse(strR);
-            var (ucl, lcl) = controlChartCalculator.Calculate_RChart(overallAverageR, N);
-            string strUCL = controlChartCalculator.Marume(ucl, significantDigits, decimalPlaces + 1, roundingMode);
-            var UCL = double.Parse(strUCL);
-
-            // 標準偏差と変動係数の計算
-            var standardDeviation = Math.Sqrt(ranges.Average(a => Math.Pow(a.Value - overallAverageR, 2)));
-            var cv = standardDeviation / overallAverageR;
-
-            RChart.Series.Clear();
-            RChart.AxisX.Clear();
-            RChart.AxisY.Clear();
-
-            // LotNumberの変化を検出し、変化点でセグメントを分割する
-            var currentLotNumber = ranges.First().LotNumber;
-            var currentSegment = new ChartValues<DateModel>();
-            var colors = new List<Brush> { Brushes.Blue, Brushes.Red, Brushes.Green, Brushes.Orange, Brushes.Purple };
-            int colorIndex = 0;
-            foreach (var data in ranges)
-            {
-                if (data.LotNumber != currentLotNumber)
-                {
-                    // 新しいセグメントを追加
-                    controlChartCalculator.AddSegmentToChart(RChart, currentSegment, colors[colorIndex % colors.Count], "R");
-                    colorIndex++;
-                    currentSegment = new ChartValues<DateModel>();
-                    currentLotNumber = data.LotNumber;
-                }
-                currentSegment.Add(data);
-            }
-            // 最後のセグメントを追加
-            controlChartCalculator.AddSegmentToChart(RChart, currentSegment, colors[colorIndex % colors.Count], "R");
-
-            // X軸の設定
-            var rangeAxisX = new Axis
-            {
-                Title = "",
-                Labels = sequenceLabels,
-                Separator = new LiveCharts.Wpf.Separator { Step = 1 },
-                MinValue = 1,
-                MaxValue = ranges.Count
-            };
-            RChart.AxisX.Add(rangeAxisX);
-
-            // Y軸の設定
-            var rAxisY = new Axis
-            {
-                Title = "",
-                MinValue = 0,
-                MaxValue = UCL,
-            };
-            RChart.AxisY.Add(rAxisY);
-
-            // 平均（破線）、UCL（実線）,LCL（実線）のラインをチャートに追加
-            controlChartCalculator.AddConstantLine(RChart, overallAverageR, "平均", Brushes.Blue, new DoubleCollection { 2, 2 });
-            controlChartCalculator.AddConstantLine(RChart, UCL, "UCL", Brushes.Orange, null);
-            controlChartCalculator.AddConstantLine(RChart, 0.0, "LCL", Brushes.Orange, null);
-
-            // 平均をラベルに表示
-            lblRCv.Content = $"CV: {cv:F2} %";
-            lblRStandardDeviation.Content = $"SD: {standardDeviation:F3}";
-
-            lblRAverageValue.Content = $"CL: {strR}";
-            lblRUCL.Content = $"UCL: {controlChartCalculator.ConvertDoubleToString(UCL, decimalPlaces + 1)}";
-            lblRLCL.Content = $"{controlChartCalculator.ConvertDoubleToString(0, decimalPlaces + 1)}";
         }
 
         /// <summary>
@@ -618,7 +450,6 @@ namespace ControlChart
             {
                 // 項目コード、コントロールコードを取得
                 string itemCode = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
-                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedCtrl ? selectedCtrl.CtrlCode : "";
 
                 // マスタデータの取得
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
@@ -647,22 +478,26 @@ namespace ControlChart
                     return false;
                 }
                 // チューブ -> mCtrlTube
-                mCtrlTube = new M_CTRL_TUBE();
-                sql = $"select * from M_CTRL_TUBE where TUBE_CODE = '{ctrlCode}' and K_CODE = '{itemCode}'";
+                mCtrlTube = new List<M_CTRL_TUBE>();
+                sql = $"select * from M_CTRL_TUBE where K_CODE = '{itemCode}' order by TUBE_CODE";
                 DataTable resultTube = oracleDb.ExecuteQuery(sql);
                 if (resultTube != null && resultTube.Rows.Count > 0)
                 {
-                    DataRow row = resultTube.Rows[0];
                     Type type = typeof(M_CTRL_TUBE);
-
-                    foreach (DataColumn column in resultTube.Columns)
+                    foreach (DataRow dRow in resultTube.Rows)
                     {
-                        var property = type.GetProperty(column.ColumnName);
-                        if (property != null && row[column] != DBNull.Value)
+                        M_CTRL_TUBE ctrlTube = new M_CTRL_TUBE();  // 新しいインスタンスを作成
+
+                        foreach (DataColumn column in resultTube.Columns)
                         {
-                            var value = Convert.ChangeType(row[column], property.PropertyType);
-                            property.SetValue(mCtrlTube, value);
+                            var property = type.GetProperty(column.ColumnName);
+                            if (property != null && dRow[column] != DBNull.Value)
+                            {
+                                var value = Convert.ChangeType(dRow[column], property.PropertyType);
+                                property.SetValue(ctrlTube, value);
+                            }
                         }
+                        mCtrlTube.Add(ctrlTube);
                     }
                 }
                 else
@@ -686,88 +521,106 @@ namespace ControlChart
             {
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                string filePath = "data.csv";
-                if (System.IO.File.Exists(filePath))
+                // カレントディレクトリを取得
+                string currentDirectory = Directory.GetCurrentDirectory();
+
+                // "data_*.csv" に一致するファイルを取得
+                string[] files = Directory.GetFiles(currentDirectory, "data_*.csv");
+
+                // ファイルを削除
+                foreach (string file in files)
                 {
-                    System.IO.File.Delete(filePath);
+                    try
+                    {
+                        File.Delete(file);
+                        Console.WriteLine($"Deleted: {file}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to delete {file}: {ex.Message}");
+                    }
                 }
                 string itemCode = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
-                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedCtrl ? selectedCtrl.CtrlCode : "";
                 DateTime? startDate = StartDatePicker.SelectedDate.Value.Date;
                 DateTime? endDate = EndDatePicker.SelectedDate.Value.Date;
 
-                // コントロールQCロットデータの取得（D_CTRL_QCLOT_INFO -> ctrlLots）
-                List< D_CTRL_QCLOT_INFO> ctrlLots = new List<D_CTRL_QCLOT_INFO>();
-                string sqlLot = "select * from D_CTRL_QCLOT_INFO"
-                    + $" where K_CODE = '{itemCode}' and TUBE_CODE = '{ctrlCode}'"
-                    + " order by S_DATE desc";
-                DataTable resultLot = oracleDb.ExecuteQuery(sqlLot);
-                if (resultLot != null && resultLot.Rows.Count > 0)
+                foreach (M_CTRL_TUBE ctrlTube in mCtrlTube)
                 {
-                    foreach (DataRow row in resultLot.Rows)
-                    {
-                        D_CTRL_QCLOT_INFO ctrlLot = new D_CTRL_QCLOT_INFO();  // 新しいインスタンスを作成
-                        Type type = typeof(D_CTRL_QCLOT_INFO);
+                    string tubeCode = ctrlTube.TUBE_CODE;
+                    string filePath = System.IO.Path.Combine(currentDirectory, $"data_{tubeCode}.csv");
 
-                        foreach (DataColumn column in resultLot.Columns)
-                        {
-                            var property = type.GetProperty(column.ColumnName);
-                            if (property != null && row[column] != DBNull.Value)
-                            {
-                                var value = Convert.ChangeType(row[column], property.PropertyType);
-                                property.SetValue(ctrlLot, value);
-                            }
-                        }
-                        ctrlLots.Add(ctrlLot);
-                    }
-                }
-                // CSVファイルのヘッダー行を作成
-                var sb = new StringBuilder();
-                sb.AppendLine("Date,Value,LotNo");
-
-                // 有効データの取得
-                string dateFrom = startDate.Value.ToString("yyyyMMdd");
-                string dateTo = endDate.Value.ToString("yyyyMMdd");
-                string sql = "select * from D_CTRL_DATA_RESRV"
-                    + $" where KENSA_DATE between '{dateFrom}' and '{dateTo}'"
-                    + $" and K_CODE = '{itemCode}' and TUBE_CODE = '{ctrlCode}'"
-                    + " and DOSE_NO > 0"
-                    + " order by KENSA_DATE, DOSE_NO";
-                DataTable result = oracleDb.ExecuteQuery(sql);
-                if (result == null && result.Rows.Count <= 0 )
-                {
-                    MessageBox.Show("表示対象データがありません", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return false;
-                }
-                foreach (DataRow row in result.Rows)
-                {
-                    string kensaDate = row["KENSA_DATE"].ToString();
-                    if (kensaDate.Length == 8)
+                    // コントロールQCロットデータの取得（D_CTRL_QCLOT_INFO -> ctrlLots）
+                    List<D_CTRL_QCLOT_INFO> ctrlLots = new List<D_CTRL_QCLOT_INFO>();
+                    string sqlLot = "select * from D_CTRL_QCLOT_INFO"
+                        + $" where K_CODE = '{itemCode}' and TUBE_CODE = '{tubeCode}'"
+                        + " order by S_DATE desc";
+                    DataTable resultLot = oracleDb.ExecuteQuery(sqlLot);
+                    if (resultLot != null && resultLot.Rows.Count > 0)
                     {
-                        // LOT番号を取得
-                        string lotNo = "";
-                        foreach (D_CTRL_QCLOT_INFO ctrlLot in ctrlLots)
+                        foreach (DataRow row in resultLot.Rows)
                         {
-                            double lotDate = double.TryParse(ctrlLot.S_DATE, out double dblDate) ? dblDate : 0;
-                            double knsDate = double.TryParse(kensaDate, out double dblKensaDate) ? dblKensaDate : 0;
-                            if (knsDate >= lotDate)
+                            D_CTRL_QCLOT_INFO ctrlLot = new D_CTRL_QCLOT_INFO();  // 新しいインスタンスを作成
+                            Type type = typeof(D_CTRL_QCLOT_INFO);
+
+                            foreach (DataColumn column in resultLot.Columns)
                             {
-                                lotNo = ctrlLot.QCLOT_NO;
-                                break;
+                                var property = type.GetProperty(column.ColumnName);
+                                if (property != null && row[column] != DBNull.Value)
+                                {
+                                    var value = Convert.ChangeType(row[column], property.PropertyType);
+                                    property.SetValue(ctrlLot, value);
+                                }
                             }
-                        }
-                        // ファイル出力データ作成
-                        string strDate = kensaDate.Substring(0, 4) + "/" + kensaDate.Substring(4, 2) + "/" + kensaDate.Substring(6, 2);
-                        if (DateTime.TryParse(strDate, out DateTime dt))
-                        {
-                            strDate = dt.ToString("yyyy/MM/dd");
-                            string strValue = row["DOSE"].ToString();
-                            string strLotNo = lotNo;
-                            sb.AppendLine($"{strDate},{strValue},{strLotNo}");
+                            ctrlLots.Add(ctrlLot);
                         }
                     }
+                    // CSVファイルのヘッダー行を作成
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Date,Value,LotNo");
+                    // 有効データの取得
+                    string dateFrom = startDate.Value.ToString("yyyyMMdd");
+                    string dateTo = endDate.Value.ToString("yyyyMMdd");
+                    string sql = "select * from D_CTRL_DATA_RESRV"
+                        + $" where KENSA_DATE between '{dateFrom}' and '{dateTo}'"
+                        + $" and K_CODE = '{itemCode}' and TUBE_CODE = '{tubeCode}'"
+                        + " and DOSE_NO > 0"
+                        + " order by KENSA_DATE, DOSE_NO";
+                    DataTable result = oracleDb.ExecuteQuery(sql);
+                    if (result == null && result.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("表示対象データがありません", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return false;
+                    }
+                    foreach (DataRow row in result.Rows)
+                    {
+                        string kensaDate = row["KENSA_DATE"].ToString();
+                        if (kensaDate.Length == 8)
+                        {
+                            // LOT番号を取得
+                            string lotNo = "";
+                            foreach (D_CTRL_QCLOT_INFO ctrlLot in ctrlLots)
+                            {
+                                double lotDate = double.TryParse(ctrlLot.S_DATE, out double dblDate) ? dblDate : 0;
+                                double knsDate = double.TryParse(kensaDate, out double dblKensaDate) ? dblKensaDate : 0;
+                                if (knsDate >= lotDate)
+                                {
+                                    lotNo = ctrlLot.QCLOT_NO;
+                                    break;
+                                }
+                            }
+                            // ファイル出力データ作成
+                            string strDate = kensaDate.Substring(0, 4) + "/" + kensaDate.Substring(4, 2) + "/" + kensaDate.Substring(6, 2);
+                            if (DateTime.TryParse(strDate, out DateTime dt))
+                            {
+                                strDate = dt.ToString("yyyy/MM/dd");
+                                string strValue = row["DOSE"].ToString();
+                                string strLotNo = lotNo;
+                                sb.AppendLine($"{strDate},{strValue},{strLotNo}");
+                            }
+                        }
+                    }
+                    File.WriteAllText(filePath, sb.ToString());
                 }
-                File.WriteAllText(filePath, sb.ToString());
             }
             catch (Exception ex)
             {
@@ -786,7 +639,6 @@ namespace ControlChart
             {
                 // 検査日、項目コード、コントロールコード、開始日、終了日を取得
                 string itemCode = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
-                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedCtrl ? selectedCtrl.CtrlCode : "";
                 DateTime? startDate = StartDatePicker.SelectedDate.Value.Date;
                 DateTime? endDate = EndDatePicker.SelectedDate.Value.Date;
 
@@ -795,11 +647,13 @@ namespace ControlChart
                 string dateFrom = startDate.Value.ToString("yyyyMMdd");
                 string dateTo = endDate.Value.ToString("yyyyMMdd");
 
+                string strTubes = string.Join(",", mCtrlTube.Select(tube => $"'{tube.TUBE_CODE}'"));
+
                 string sql = "select distinct KENSA_DATE, TUBE_CODE, K_CODE, DOSE_NO"
                     + " from D_CTRL_DATA_RESRV"
-                    + $" where K_CODE = '{itemCode}' and TUBE_CODE = '{ctrlCode}' and DOSE_NO is null"
+                    + $" where K_CODE = '{itemCode}' and TUBE_CODE in ({strTubes}) and DOSE_NO is null"
                     + $" and KENSA_DATE between '{dateFrom}' and '{dateTo}'"
-                    + " order by KENSA_DATE";
+                    + " order by KENSA_DATE, TUBE_CODE";
                 DataTable result = oracleDb.ExecuteQuery(sql);
                 if (result == null)
                 {
@@ -817,38 +671,34 @@ namespace ControlChart
                     DataTable result_1 = oracleDb.ExecuteQuery(sql_1);
                     if (result_1 != null && result_1.Rows.Count > 0)
                     {
-                        // カットオフ（上限）
-                        double cutoffH = double.TryParse(mCtrlTube.CUTOFF_H, out double dblH) ? dblH : 999999999;
-                        // カットオフ（下限）
-                        double cutoffL = double.TryParse(mCtrlTube.CUTOFF_L, out double dblL) ? dblL : 0;
-
                         foreach (DataRow row_1 in result_1.Rows)
                         {
-                            if (double.TryParse(row_1["DOSE"].ToString(), out double dblDose))
+                            D_CTRL_DATA_RESRV data = new D_CTRL_DATA_RESRV
                             {
-                                // カットオフのチェック
-                                if (cutoffL <= dblDose && dblDose <= cutoffH)
-                                {
-                                    D_CTRL_DATA_RESRV data = new D_CTRL_DATA_RESRV
-                                    {
-                                        KENSA_DATE = row_1["KENSA_DATE"].ToString(),
-                                        TUBE_CODE = row_1["TUBE_CODE"].ToString(),
-                                        K_CODE = row_1["K_CODE"].ToString(),
-                                        SUB_NO = int.Parse(row_1["SUB_NO"].ToString()),
-                                        DOSE_NO = int.TryParse(row_1["DOSE_NO"].ToString(), out int iTmp) ? int.Parse(row_1["DOSE_NO"].ToString()) : -1,
-                                        DOSE = row_1["DOSE"].ToString(),
-                                        DOSE_OLD = row_1["DOSE_OLD"].ToString(),
-                                        IMP_DATE = DateTime.Parse(row_1["IMP_DATE"].ToString())
-                                    };
-                                    dataList.Add(data);
-                                }
-                            }
+                                KENSA_DATE = row_1["KENSA_DATE"].ToString(),
+                                TUBE_CODE = row_1["TUBE_CODE"].ToString(),
+                                K_CODE = row_1["K_CODE"].ToString(),
+                                SUB_NO = int.Parse(row_1["SUB_NO"].ToString()),
+                                DOSE_NO = int.TryParse(row_1["DOSE_NO"].ToString(), out int iTmp) ? int.Parse(row_1["DOSE_NO"].ToString()) : -1,
+                                DOSE = row_1["DOSE"].ToString(),
+                                DOSE_OLD = row_1["DOSE_OLD"].ToString(),
+                                IMP_DATE = DateTime.Parse(row_1["IMP_DATE"].ToString())
+                            };
+                            dataList.Add(data);
                         }
                         // N本選択処理
                         if (dataList.Count > 0)
                         {
                             Random random = new Random();       // 乱数を生成するためのRandomオブジェクトを作成
-                            int N = mCtrlTube.CTRLPARM_DISP_SU; // Nの値を設定
+                            int N = -1;                         // Nの値を設定
+                            foreach (M_CTRL_TUBE tube in mCtrlTube)
+                            {
+                                if (tube.TUBE_CODE == dataList[0].TUBE_CODE)
+                                {
+                                    N = tube.CTRLPARM_DISP_SU;
+                                    break;
+                                }
+                            }
                             if (mCtrlChart.GETSEL_KBN == 1) // 0:トップからN本、1:ランダムにN本
                             {
                                 // ランダムにN本選択
@@ -909,9 +759,9 @@ namespace ControlChart
                 //WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 mCtrlChart = this.mCtrlChart,
                 mCtrlTube = this.mCtrlTube,
+                yLabels = this.yLabels,
                 startDate = (DateTime)StartDatePicker.SelectedDate.Value.Date,
                 endDate = (DateTime)EndDatePicker.SelectedDate.Value.Date
-
             };
             ppw.labelDate.Content = DateTime.Now.ToString("yyyy 年 MM 月 dd 日");
 
@@ -973,9 +823,23 @@ namespace ControlChart
             {
                 try
                 {
-                    var filteredData = dataGenerator.FilterDataByDateRange(dataGenerator.ReadCsvData("data.csv"), startDate.Value, endDate.Value);
-                    if (DisplayCharts(filteredData) == false)
-                        return false;
+                    // カレントディレクトリを取得
+                    string currentDirectory = Directory.GetCurrentDirectory();
+                    int tubeNo = 0;
+                    foreach(M_CTRL_TUBE tube in mCtrlTube)
+                    {
+                        string tubeCode = tube.TUBE_CODE;
+                        string filePath = System.IO.Path.Combine(currentDirectory, $"data_{tubeCode}.csv");
+
+                        // ファイルが存在する場合
+                        if (File.Exists(filePath))
+                        {
+                            var filteredData = dataGenerator.FilterDataByDateRange(dataGenerator.ReadCsvData(filePath), startDate.Value, endDate.Value);
+                            if (DisplayCharts(filteredData, tubeNo) == false)
+                                return false;
+                            tubeNo++;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1018,7 +882,6 @@ namespace ControlChart
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             lotChange.ownerK_CODE = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
-            lotChange.ownerTUBE_CODE = CmbCtrlList.SelectedItem is CtrlList selectedCtrl ? selectedCtrl.CtrlCode : "";
 
             lotChange.ShowDialog();
         }
@@ -1036,7 +899,6 @@ namespace ControlChart
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             dataMente.ownerK_CODE = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
-            dataMente.ownerTUBE_CODE = CmbCtrlList.SelectedItem is CtrlList selectedCtrl ? selectedCtrl.CtrlCode : "";
 
             dataMente.ShowDialog();
 
@@ -1052,17 +914,15 @@ namespace ControlChart
     {
         public int Sequence { get; set; }
         public DateTime DateTime { get; set; }
-        public double Value { get; set; }
-        public double Max { get; set; }
-        public double Min { get; set; }
-        public int Count { get; set; }
+        public int Index { get; set; }
+        public string Value { get; set; }
         public string LotNumber { get; set; }
     }
 
     public class DateValue
     {
         public DateTime Date { get; set; }
-        public double Value { get; set; }
+        public string Value { get; set; }
         public string LotNumber { get; set; }
     }
 

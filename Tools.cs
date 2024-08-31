@@ -38,7 +38,7 @@ namespace ControlChart
                     }
                     if (DateTime.TryParse(strDate, out DateTime date))
                     {
-                        var value = double.Parse(parts[1]);
+                        var value = parts[1];
                         var lotNumber = parts[2];
                         data.Add(new DateValue { Date = date, Value = value, LotNumber = lotNumber });
                     }
@@ -125,7 +125,7 @@ namespace ControlChart
             var entry = data.Find(e => e.N == N);
 
             // 範囲の平均（分母を -1 する）
-            double sumOfRangesStandard = rangeStandard.Sum(a => a.Value);
+            double sumOfRangesStandard = 0;
             double meanOfRangesStandard = sumOfRangesStandard / (rangeStandard.Count() - 1);
 
             // UCLとLCLを計算
@@ -148,7 +148,7 @@ namespace ControlChart
             var entry = data.Find(e => e.N == N);
 
             // 範囲の平均（分母を -1 する）
-            double sumOfRangesStandard = rangeStandard.Sum(a => a.Value);
+            double sumOfRangesStandard = 0;
             double meanOfRangesStandard = sumOfRangesStandard / (rangeStandard.Count() - 1);
 
             // UCLとLCLを計算
@@ -297,7 +297,7 @@ namespace ControlChart
                         Stroke = color,
                         Fill = Brushes.Transparent,
                         LineSmoothness = 0,
-                        DataLabels = true
+                        DataLabels = false
                     };
                     cChart.Series.Add(lineSeries);
                 }
@@ -325,8 +325,8 @@ namespace ControlChart
                     Title = title,
                     Values = new ChartValues<DateModel>
                     {
-                        new DateModel { Sequence = 1, Value = value },
-                        new DateModel { Sequence = chart.AxisX[0].Labels.Count, Value = value }
+                        new DateModel { Sequence = 1, Index = (int)value },
+                        new DateModel { Sequence = chart.AxisX[0].Labels.Count, Index = (int)value }
                     },
                     Stroke = color,
                     Fill = Brushes.Transparent,

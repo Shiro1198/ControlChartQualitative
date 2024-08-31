@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace ControlChart
 {
@@ -24,13 +25,13 @@ namespace ControlChart
     public partial class LotChange : Window
     {
         public string ownerK_CODE;
-        public string ownerTUBE_CODE;
 
         // Oracleデータベースへの接続文字列
 
         private string connectStrOra = ConfigurationManager.AppSettings["OraConnectString"];
         // ロット情報のグリッド表示用
         public ObservableCollection<dCtrlLot> gridCtrlLot { get; set; }
+        private ObservableCollection<CtrlList> cmbCtrl = new ObservableCollection<CtrlList>();
 
 
         public LotChange()
@@ -56,11 +57,41 @@ namespace ControlChart
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             TxtK_CODE.Text = ownerK_CODE;
-            TxtTUBE_CODE.Text = ownerTUBE_CODE;
+
+            try
+            {
+                cmbCtrl.Clear();
+                OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
+
+                string sql = $"select K_CODE, TUBE_CODE, MNG_RYAK from M_CTRL_TUBE where K_CODE = '{ownerK_CODE}'";
+                sql += " order by TUBE_CODE";
+                DataTable result = oracleDb.ExecuteQuery(sql);
+
+                if (result != null)
+                {
+                    var items = from DataRow row in result.Rows
+                    select new CtrlList
+                    {
+                        CtrlCode = row["TUBE_CODE"].ToString(),
+                        CtrlName = row["MNG_RYAK"].ToString()
+                    };
+                    foreach (var item in items)
+                    {
+                        cmbCtrl.Add(item);
+                    }
+                }
+                this.CmbCtrlList.ItemsSource = cmbCtrl;
+            }
+            catch (Exception ex)
+            {
+                // エラーハンドリング：適切なログ記録やメッセージ表示を行う
+                MessageBox.Show($"データの読み込み中にエラーが発生しました: {ex.Message}", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
 
             // データグリッドの初期化（登録データの取得）
             gridCtrlLot = new ObservableCollection<dCtrlLot>();
-            set_gridCtrlTube();
+            gridCtrlLot.Clear();
             dataGridLot.ItemsSource = gridCtrlLot;
 
         }
@@ -71,10 +102,16 @@ namespace ControlChart
             {
                 OracleDatabase db = new OracleDatabase(ConfigurationManager.AppSettings["OraConnectString"]);
 
+                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                if (string.IsNullOrEmpty(ctrlCode))
+                {
+                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 DataTable dt = db.ExecuteQuery("select * from D_CTRL_QCLOT_INFO where K_CODE = :K_CODE and TUBE_CODE = :TUBE_CODE order by S_DATE", new Dictionary<string, object>
                 {
                     { "K_CODE", ownerK_CODE },
-                    { "TUBE_CODE", ownerTUBE_CODE }
+                    { "TUBE_CODE", ctrlCode }
                 });
 
                 foreach (DataRow row in dt.Rows)
@@ -114,7 +151,13 @@ namespace ControlChart
                 {
                     OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                    string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                    if (string.IsNullOrEmpty(ctrlCode))
+                    {
+                        MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result.Rows.Count <= 0)
@@ -126,7 +169,7 @@ namespace ControlChart
                     sql = $"update D_CTRL_QCLOT_INFO set"
                         + $" MNGVAL='{selectedRow.MNGVAL}', DAYOVER_CV='{selectedRow.DAYOVER_CV}'"
                         + $", DAYIN_CV='{selectedRow.DAYIN_CV}', SPEC_MEMO='{selectedRow.SPEC_MEMO}'"
-                        + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                        + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     oracleDb.ExecuteNonQuery(sql);
                 }
@@ -154,7 +197,13 @@ namespace ControlChart
                 {
                     OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                    string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                    if (string.IsNullOrEmpty(ctrlCode))
+                    {
+                        MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result.Rows.Count <= 0)
@@ -163,7 +212,7 @@ namespace ControlChart
                         return;
                     }
                     // 削除処理
-                    sql = $"delete from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                    sql = $"delete from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     oracleDb.ExecuteNonQuery(sql);
                 }
@@ -195,8 +244,14 @@ namespace ControlChart
 
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
+                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                if (string.IsNullOrEmpty(ctrlCode))
+                {
+                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 string sql = $"select * from D_CTRL_QCLOT_INFO"
-                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}' and S_DATE='{dateStart}'";
+                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}' and S_DATE='{dateStart}'";
                 DataTable result = oracleDb.ExecuteQuery(sql);
                 if (result.Rows.Count > 0)
                 {
@@ -205,7 +260,7 @@ namespace ControlChart
                 }
                 // 新規登録処理
                 sql = $"insert into D_CTRL_QCLOT_INFO (QCLOT_NO, TUBE_CODE, K_CODE, MNGVAL, DAYOVER_CV, DAYIN_CV, S_DATE, SPEC_MEMO)"
-                    + $" values ('{TxtQCLOT_NO.Text}','{TxtTUBE_CODE.Text}','{TxtK_CODE.Text}','{TxtMNGVAL.Text}'"
+                    + $" values ('{TxtQCLOT_NO.Text}','{ctrlCode}','{TxtK_CODE.Text}','{TxtMNGVAL.Text}'"
                     + $",'{TxtDAYOVER_CV.Text}','{TxtDAYIN_CV.Text}','{dateStart}','{TxtSPEC_MEMO.Text}')";
                 oracleDb.ExecuteNonQuery(sql);
 
@@ -328,5 +383,9 @@ namespace ControlChart
             }
         }
 
+        private void CmbTubeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            set_gridCtrlTube();
+        }
     }
 }

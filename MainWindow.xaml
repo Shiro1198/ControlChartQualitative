@@ -19,11 +19,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="250" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="250" />
         </Grid.RowDefinitions>
 
         <!-- 左側のグリッド -->
@@ -67,21 +66,6 @@
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <Label Content="項目名" Width="80"/>
                         <TextBox x:Name="TextBoxK_NAME" Width="150" IsReadOnly="True" />
-                    </StackPanel>
-
-                    <!-- コントロール、プルダウン -->
-                    <StackPanel Orientation="Horizontal" Margin="2">
-                        <Label Content="コントロール" Width="80"/>
-                        <ComboBox x:Name="CmbCtrlList" Width="150" >
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding CtrlCode}" Margin="0,0,5,0"/>
-                                        <TextBlock Text="{Binding CtrlName}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
                     </StackPanel>
 
                     <!-- 単位、テキストボックス（リードオンリー） -->
@@ -129,7 +113,7 @@
             <!--<Button x:Name="buttonCreateData" Grid.Row="4" Content="CSV作成" HorizontalAlignment="Stretch" Padding="10,5" Margin="0,10,0,0" Click="buttonCreateData_Click"/>-->
         </Grid>
 
-        <!-- Xバー チャートのラベル -->
+        <!-- チャート（１）のラベル -->
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="10,0,2,0">
             <StackPanel.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -137,112 +121,17 @@
                     <GradientStop Color="WhiteSmoke" Offset="0.493"/>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <Label Content="X Bar" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" Margin="10,0,10,0" />
-            <Label x:Name="lblXBarCv" Content="CV:" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Label x:Name="lblXBarStandardDeviation" Content="SD:" VerticalAlignment="Center" HorizontalAlignment="Right" />
+            <Label x:Name="Name_1" Content="管理資料" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" Margin="10,0,10,0" />
         </StackPanel>
-        <!-- Xバー チャート -->
+        <!-- チャート（１） -->
         <Grid Grid.Row="1" Grid.Column="1" Margin="5,1,5,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="80" />
-            </Grid.ColumnDefinitions>
             <Border BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
-                <lvc:CartesianChart Name="XBarChart" Grid.Column="0">
+                <lvc:CartesianChart Name="Chart_1">
                 </lvc:CartesianChart>
             </Border>
-
-            <!-- 平均値表示用のラベル -->
-            <Grid x:Name="XBarGrid" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label x:Name="lblUCLValue" Content="UCL" Grid.Row="0" VerticalAlignment="Top"/>
-                <Label x:Name="lbl2SDValue" Content="2σ" Grid.Row="1" VerticalAlignment="Top"/>
-                <Label x:Name="lblAverageValue" Content="CL" Grid.Row="2" VerticalAlignment="Center"/>
-                <Label x:Name="lblMinus2SDValue" Content="-2σ" Grid.Row="3" VerticalAlignment="Bottom"/>
-                <Label x:Name="lblLCLValue" Content="LCL" Grid.Row="4" VerticalAlignment="Bottom"/>
-            </Grid>
         </Grid>
-
-        <!-- Rs チャートのラベル -->
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="10,0,2,0">
-            <StackPanel.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="RoyalBlue" Offset="0"/>
-                    <GradientStop Color="WhiteSmoke" Offset="0.493"/>
-                </LinearGradientBrush>
-            </StackPanel.Background>
-            <Label Content="Rs" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" Margin="10,0,10,0"/>
-            <Label x:Name="lblRsCv" Content="CV:" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Label x:Name="lblRsStandardDeviation" Content="SD:" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        </StackPanel>
-        <!-- Rs チャート -->
-        <Grid Grid.Row="3" Grid.Column="1"  Margin="5,1,5,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="80" />
-            </Grid.ColumnDefinitions>
-            <Border  BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
-                <lvc:CartesianChart Name="RsChart" Grid.Column="0">
-                </lvc:CartesianChart>
-            </Border>
-            <Grid x:Name="RsGrid" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label x:Name="lblRsUCL" Content="UCL" Grid.Row="0" VerticalAlignment="Top"/>
-                <Label x:Name="lblRs2Sigma" Content="2σ" Grid.Row="1" VerticalAlignment="Top"/>
-                <Label x:Name="lblRsAverageValue"  Content="CL" Grid.Row="2" VerticalAlignment="Center"/>
-                <Label x:Name="lblRsLCL" Content="LCL" Grid.Row="4" VerticalAlignment="Bottom"/>
-            </Grid>
-        </Grid>
-
-        <!-- R チャートのラベル -->
-        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="10,0,2,0">
-            <StackPanel.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="RoyalBlue" Offset="0"/>
-                    <GradientStop Color="WhiteSmoke" Offset="0.493"/>
-                </LinearGradientBrush>
-            </StackPanel.Background>
-            <Label Content="R" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" Margin="10,0,10,0" />
-            <Label x:Name="lblRCv" Content="CV:" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Label x:Name="lblRStandardDeviation" Content="SD:" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        </StackPanel>
-
-        <!-- R チャート -->
-        <Grid Grid.Row="5" Grid.Column="1" Margin="5,1,5,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="80" />
-            </Grid.ColumnDefinitions>
-            <Border BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
-                <lvc:CartesianChart Name="RChart" Grid.Column="0">
-                </lvc:CartesianChart>
-            </Border>
-            <Grid x:Name="RGrid" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label x:Name="lblRUCL" Content="UCL" Grid.Row="0" VerticalAlignment="Top"/>
-                <Label x:Name="lblRAverageValue" Content="CL" Grid.Row="1" VerticalAlignment="Center"/>
-                <Label x:Name="lblRLCL" Content="LCL" Grid.Row="2" VerticalAlignment="Bottom"/>
-            </Grid>
-        </Grid>
-
-        <!-- データグリッド -->
-        <DataGrid  Grid.Row="6" Grid.Column="1" x:Name="DataGridView" AutoGenerateColumns="False" Margin="10,0,100,2">
+        <!-- データグリッド（１） -->
+        <DataGrid  Grid.Row="2" Grid.Column="1" x:Name="DataGridView_1" AutoGenerateColumns="False" Margin="10,2,10,2" Width="400" HorizontalAlignment="Left" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sequence" Binding="{Binding Sequence}" >
                     <DataGridTextColumn.ElementStyle>
@@ -260,7 +149,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="X Bar" Binding="{Binding Average}" >
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -268,42 +157,58 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Max" Binding="{Binding Max}" >
+                <DataGridTextColumn Header="LotNumber" Binding="{Binding LotNumber}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
                             <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Min" Binding="{Binding Min}" >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                            <Setter Property="Padding" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Rs" Binding="{Binding RangeStandard}" >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                            <Setter Property="Padding" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="R" Binding="{Binding Range}" >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                            <Setter Property="Padding" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="N" Binding="{Binding Count}" >
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- チャート（２） -->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="10,0,2,0">
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="RoyalBlue" Offset="0"/>
+                    <GradientStop Color="WhiteSmoke" Offset="0.493"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
+            <Label x:Name="Name_2" Content="管理資料" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" Margin="10,0,10,0"/>
+        </StackPanel>
+        <!-- チャート -->
+        <Grid Grid.Row="4" Grid.Column="1"  Margin="5,1,5,1">
+            <Border  BorderBrush="Black" BorderThickness="1" Margin="5,1,5,1">
+                <lvc:CartesianChart Name="Chart_2">
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+
+        <!-- データグリッド -->
+        <DataGrid  Grid.Row="5" Grid.Column="1" x:Name="DataGridView_2" AutoGenerateColumns="False" Margin="10,0,100,2" HorizontalAlignment="Left" Width="400" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Sequence" Binding="{Binding Sequence}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="DateTime" Binding="{Binding DateTime, StringFormat={}{0:yyyy/MM/dd}}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
                             <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>

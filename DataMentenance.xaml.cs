@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static ControlChart.ClassDataTable;
 using static ControlChart.LotChange;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace ControlChart
 {
@@ -32,7 +33,7 @@ namespace ControlChart
     public partial class DataMentenance : Window
     {
         public string ownerK_CODE;
-        public string ownerTUBE_CODE;
+        private ObservableCollection<CtrlList> cmbCtrl = new ObservableCollection<CtrlList>();
 
         private string connectStrOra = ConfigurationManager.AppSettings["OraConnectString"];
         // ロット情報のグリッド表示用
@@ -46,51 +47,37 @@ namespace ControlChart
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             TxtK_CODE.Text = ownerK_CODE;
-            TxtTUBE_CODE.Text = ownerTUBE_CODE;
+            try
+            {
+                cmbCtrl.Clear();
+                OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
+
+                string sql = $"select K_CODE, TUBE_CODE, MNG_RYAK from M_CTRL_TUBE where K_CODE = '{ownerK_CODE}'";
+                sql += " order by TUBE_CODE";
+                DataTable result = oracleDb.ExecuteQuery(sql);
+
+                if (result != null)
+                {
+                    var items = from DataRow row in result.Rows
+                                select new CtrlList
+                                {
+                                    CtrlCode = row["TUBE_CODE"].ToString(),
+                                    CtrlName = row["MNG_RYAK"].ToString()
+                                };
+                    foreach (var item in items)
+                    {
+                        cmbCtrl.Add(item);
+                    }
+                }
+                this.CmbCtrlList.ItemsSource = cmbCtrl;
+            }
+            catch (Exception ex)
+            {
+                // エラーハンドリング：適切なログ記録やメッセージ表示を行う
+                MessageBox.Show($"データの読み込み中にエラーが発生しました: {ex.Message}", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             gridCtrlData = new ObservableCollection<dCtrlData>();
-
-            OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
-
-            string sql = $"select * from ( select * from D_CTRL_DATA_RESRV where K_CODE = '{ownerK_CODE}' and TUBE_CODE = '{ownerTUBE_CODE}'"
-                + $" order by KENSA_DATE desc ) where rownum <= 300";
-            DataTable result = oracleDb.ExecuteQuery(sql);
-            if (result.Rows.Count > 0)
-            {
-
-                // DatePickerの初期値を設定
-                //StartDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
-                //EndDatePicker.SelectedDate = DateTime.Now;
-
-                string dtTmp = result.AsEnumerable().Select(r => r.Field<string>("KENSA_DATE")).Max();
-                if (DateTime.TryParseExact(dtTmp, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
-                {
-                    EndDatePicker.SelectedDate = dateValue;
-                }
-                dtTmp = result.AsEnumerable().Select(r => r.Field<string>("KENSA_DATE")).Min();
-                if (DateTime.TryParseExact(dtTmp, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValueEnd))
-                {
-                    StartDatePicker.SelectedDate = dateValueEnd;
-                }
-
-                foreach (DataRow row in result.Rows)
-                {
-                    string kensaDate = row["KENSA_DATE"].ToString();
-                    int subNo = int.Parse(row["SUB_NO"].ToString());
-                    int? doseNo = int.TryParse(row["DOSE_NO"].ToString(), out int iNo) ? iNo : (int?)null;
-                    string dose = row["DOSE"].ToString();
-                    DateTime impDate = DateTime.Parse(row["IMP_DATE"].ToString());
-
-                    gridCtrlData.Add(new dCtrlData
-                    {
-                        KENSA_DATE = kensaDate,
-                        SUB_NO = subNo,
-                        DOSE_NO = doseNo,
-                        DOSE = dose,
-                        IMP_DATE = impDate
-                    });
-                }
-            }
             DataGridCtrlData.ItemsSource = gridCtrlData;
         }
 
@@ -110,7 +97,12 @@ namespace ControlChart
             try
             {
                 OracleDatabase db = new OracleDatabase(ConfigurationManager.AppSettings["OraConnectString"]);
-
+                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                if (string.IsNullOrEmpty(ctrlCode))
+                {
+                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 DateTime? startDate = StartDatePicker.SelectedDate;
                 string dateStart = "";
                 string dateEnd = "";
@@ -137,7 +129,7 @@ namespace ControlChart
                 }
 
                 string sql = "select * from D_CTRL_DATA_RESRV"
-                    + $" where K_CODE = '{ownerK_CODE}' and TUBE_CODE = '{ownerTUBE_CODE}'"
+                    + $" where K_CODE = '{ownerK_CODE}' and TUBE_CODE = '{ctrlCode}'"
                     + $" and KENSA_DATE between '{dateStart}' and '{dateEnd}'"
                     + " order by KENSA_DATE desc, SUB_NO asc";
                 DataTable dt = db.ExecuteQuery(sql);
@@ -180,12 +172,17 @@ namespace ControlChart
             {
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
                 string sql = "";
-
+                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                if (string.IsNullOrEmpty(ctrlCode))
+                {
+                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 foreach (var selectedRow in selectedRows)
                 {
                     try
                     {
-                        sql = $"select * from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                        sql = $"select * from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                             + $" and KENSA_DATE='{selectedRow.KENSA_DATE}' and SUB_NO={selectedRow.SUB_NO}";
                         DataTable result = oracleDb.ExecuteQuery(sql);
                         if (result.Rows.Count <= 0)
@@ -194,7 +191,7 @@ namespace ControlChart
                             return;
                         }
                         // 削除処理
-                        sql = $"delete from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                        sql = $"delete from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                             + $" and KENSA_DATE='{selectedRow.KENSA_DATE}' and SUB_NO={selectedRow.SUB_NO}";
                         oracleDb.ExecuteNonQuery(sql);
                     }
@@ -231,8 +228,13 @@ namespace ControlChart
                 try
                 {
                     OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
-
-                    string sql = $"select * from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                    string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                    if (string.IsNullOrEmpty(ctrlCode))
+                    {
+                        MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                    string sql = $"select * from D_CTRL_DATA_RESRV where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and KENSA_DATE='{selectedRow.KENSA_DATE}' and SUB_NO={selectedRow.SUB_NO}";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result.Rows.Count <= 0)
@@ -253,7 +255,7 @@ namespace ControlChart
                     sql = $"update D_CTRL_DATA_RESRV set"
                         + $" DOSE_NO={doseNo}"
                         + $", DOSE='{selectedRow.DOSE}'"
-                        + $"  where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}'"
+                        + $"  where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and KENSA_DATE='{selectedRow.KENSA_DATE}' and SUB_NO={selectedRow.SUB_NO}";
                     oracleDb.ExecuteNonQuery(sql);
                 }
@@ -284,9 +286,14 @@ namespace ControlChart
                 string kensaStart = startDate.Value.ToString("yyyyMMdd");
 
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
-
+                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+                if (string.IsNullOrEmpty(ctrlCode))
+                {
+                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 string sql = $"select * from D_CTRL_DATA_RESRV"
-                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}' and KENSA_DATE='{kensaStart}'"
+                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}' and KENSA_DATE='{kensaStart}'"
                     + $" and SUB_NO = {TxtSUB_NO.Text}";
                 DataTable result = oracleDb.ExecuteQuery(sql);
                 if (result.Rows.Count > 0)
@@ -296,7 +303,7 @@ namespace ControlChart
                 }
                 // 新規登録処理
                 sql = $"insert into D_CTRL_DATA_RESRV (KENSA_DATE, TUBE_CODE, K_CODE, SUB_NO, DOSE, IMP_DATE)"
-                    + $" values ('{kensaStart}','{TxtTUBE_CODE.Text}','{TxtK_CODE.Text}',{TxtSUB_NO.Text}"
+                    + $" values ('{kensaStart}','{ctrlCode}','{TxtK_CODE.Text}',{TxtSUB_NO.Text}"
                     + $",'{TxtDOSE.Text}',sysdate)";
                 oracleDb.ExecuteNonQuery(sql);
 
@@ -489,13 +496,18 @@ namespace ControlChart
         private void CsvDataUpdate(Dictionary<DateTime, List<string>> measurementData)
         {
             OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
-
+            string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+            if (string.IsNullOrEmpty(ctrlCode))
+            {
+                MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             foreach (var date in measurementData.Keys)
             {
                 string dateKey = date.ToString("yyyyMMdd");
 
                 string sql = $"select * from D_CTRL_DATA_RESRV"
-                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{TxtTUBE_CODE.Text}' and KENSA_DATE='{dateKey}'";
+                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}' and KENSA_DATE='{dateKey}'";
                 DataTable result = oracleDb.ExecuteQuery(sql);
                 if (result.Rows.Count > 0)
                 {
@@ -506,7 +518,7 @@ namespace ControlChart
                 foreach (var value in measurementData[date])
                 {
                     string sqlInsert = $"insert into D_CTRL_DATA_RESRV (KENSA_DATE, TUBE_CODE, K_CODE, SUB_NO, DOSE, IMP_DATE)"
-                        + $" values ('{dateKey}','{TxtTUBE_CODE.Text}','{TxtK_CODE.Text}',{iSubNo}"
+                        + $" values ('{dateKey}','{ctrlCode}','{TxtK_CODE.Text}',{iSubNo}"
                         + $",'{value}',sysdate)";
                     int iRet = oracleDb.ExecuteNonQuery(sqlInsert);
                     iSubNo++;
@@ -599,5 +611,56 @@ namespace ControlChart
             }
         }
 
+        private void CmbTubeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
+            string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
+            if (string.IsNullOrEmpty(ctrlCode))
+            {
+                MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            gridCtrlData.Clear();
+            string sql = $"select * from ( select * from D_CTRL_DATA_RESRV where K_CODE = '{ownerK_CODE}' and TUBE_CODE = '{ctrlCode}'"
+                + $" order by KENSA_DATE desc ) where rownum <= 300";
+            DataTable result = oracleDb.ExecuteQuery(sql);
+            if (result.Rows.Count > 0)
+            {
+
+                // DatePickerの初期値を設定
+                //StartDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
+                //EndDatePicker.SelectedDate = DateTime.Now;
+
+                string dtTmp = result.AsEnumerable().Select(r => r.Field<string>("KENSA_DATE")).Max();
+                if (DateTime.TryParseExact(dtTmp, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+                {
+                    EndDatePicker.SelectedDate = dateValue;
+                }
+                dtTmp = result.AsEnumerable().Select(r => r.Field<string>("KENSA_DATE")).Min();
+                if (DateTime.TryParseExact(dtTmp, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValueEnd))
+                {
+                    StartDatePicker.SelectedDate = dateValueEnd;
+                }
+
+                foreach (DataRow row in result.Rows)
+                {
+                    string kensaDate = row["KENSA_DATE"].ToString();
+                    int subNo = int.Parse(row["SUB_NO"].ToString());
+                    int? doseNo = int.TryParse(row["DOSE_NO"].ToString(), out int iNo) ? iNo : (int?)null;
+                    string dose = row["DOSE"].ToString();
+                    DateTime impDate = DateTime.Parse(row["IMP_DATE"].ToString());
+
+                    gridCtrlData.Add(new dCtrlData
+                    {
+                        KENSA_DATE = kensaDate,
+                        SUB_NO = subNo,
+                        DOSE_NO = doseNo,
+                        DOSE = dose,
+                        IMP_DATE = impDate
+                    });
+                }
+            }
+
+        }
     }
 }
