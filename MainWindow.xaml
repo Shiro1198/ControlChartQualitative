@@ -40,13 +40,6 @@
             <Grid Grid.Row="0">
 
                 <StackPanel Margin="2">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <RadioButton Content="すべて" GroupName="SampleGroup" Checked="RadioButton_Checked" Tag="All" Margin="2" IsChecked="True"/>
-                        <RadioButton Content="血液" GroupName="SampleGroup" Checked="RadioButton_Checked" Tag="Blood" Margin="2"/>
-                        <RadioButton Content="生化" GroupName="SampleGroup" Checked="RadioButton_Checked" Tag="Biochemistry" Margin="2"/>
-                        <RadioButton Content="尿" GroupName="SampleGroup" Checked="RadioButton_Checked" Tag="Urine" Margin="2"/>
-                        <RadioButton Content="その他" GroupName="SampleGroup" Checked="RadioButton_Checked" Tag="Other" Margin="2"/>
-                    </StackPanel>
                     <!-- 項目＋プルダウン -->
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <Label Content="項目" Width="80"/>

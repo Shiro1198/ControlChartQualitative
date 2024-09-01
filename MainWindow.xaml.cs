@@ -129,24 +129,7 @@ namespace ControlChart
                 cmbCtrl.Clear();
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                string sql = "select K_CODE, K_RYAK from M_CTRL_CHART";
-                switch(SelectOption)
-                {
-                    case "Blood":
-                        sql += " where K_KUBUN = 1";
-                        break;
-                    case "Biochemistry":
-                        sql += " where K_KUBUN = 2";
-                        break;
-                    case "Urine":
-                        sql += " where K_KUBUN = 3";
-                        break;
-                    case "Other":
-                        sql += " where K_KUBUN = 0";
-                        break;
-                    default:
-                        break;
-                }
+                string sql = "select K_CODE, K_RYAK from M_CTRL_CHART where K_KUBUN = '4'";
                 sql += " order by K_CODE";
                 DataTable result = oracleDb.ExecuteQuery(sql);
 
