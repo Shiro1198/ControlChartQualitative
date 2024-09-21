@@ -304,7 +304,7 @@ namespace ControlChart
 
             if (printDialog.ShowDialog() == true)
             {
-                // 印刷ボタンを非表示にする
+                // 印刷ボタンと他のコントロールを非表示にする
                 Button printButton = sender as Button;
                 printButton.Visibility = Visibility.Hidden;
                 PrintList.Visibility = Visibility.Hidden;
@@ -314,56 +314,61 @@ namespace ControlChart
                 PrintTicket printTicket = printDialog.PrintTicket;
                 PrintCapabilities printCapabilities = printDialog.PrintQueue.GetPrintCapabilities(printTicket);
 
-                // A4サイズの寸法（210mm x 297mm）をインチに変換
-                double a4Width = 8.27 * 96;     // 210mm / 25.4mm per inch * 96 DPI
-                double a4Height = 11.69 * 96;   // 297mm / 25.4mm per inch * 96 DPI
-
-                // 印刷可能領域を取得
+                // 印刷可能領域のサイズを取得
                 double printableWidth = printCapabilities.PageImageableArea.ExtentWidth;
                 double printableHeight = printCapabilities.PageImageableArea.ExtentHeight;
-
-                // 余白を設定（例えば、20mmの余白を設定）
-                double margin = 10 / 25.4 * 96; // 20mm / 25.4mm per inch * 96 DPI
-
-                // 余白を考慮した印刷領域のサイズを計算
-                double contentWidth = Math.Min(a4Width, printableWidth) - margin * 2;
-                double contentHeight = Math.Min(a4Height, printableHeight) - margin * 2;
+                double originX = printCapabilities.PageImageableArea.OriginWidth;
+                double originY = printCapabilities.PageImageableArea.OriginHeight;
 
                 // 印刷用のビジュアル要素を取得
                 Transform originalTransform = PrintArea.LayoutTransform;
                 PrintArea.LayoutTransform = null; // レイアウトを印刷用にリセット
 
                 // コンテンツのサイズを設定
-                Size contentSize = new Size(contentWidth, contentHeight);
-                PrintArea.Measure(contentSize);
-                PrintArea.Arrange(new Rect(new Point(0, 0), contentSize));
+                PrintArea.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                PrintArea.Arrange(new Rect(new Point(0, 0), new Size(PrintArea.ActualWidth, PrintArea.ActualHeight)));
+
+                // 印刷するコンテンツのサイズを取得
+                double contentWidth = PrintArea.ActualWidth;
+                double contentHeight = PrintArea.ActualHeight;
+
+                // スケール係数を計算（幅と高さのいずれか小さい方を使用）
+                double scale = Math.Min(printableWidth / contentWidth, printableHeight / contentHeight);
+
+                // コンテンツを印刷領域にフィットさせるためにスケーリング
+                ScaleTransform scaleTransform = new ScaleTransform(scale, scale);
+                PrintArea.LayoutTransform = scaleTransform;
 
                 // レイアウトの更新を強制
-                PrintArea.UpdateLayout();
+                PrintArea.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                PrintArea.Arrange(new Rect(new Point(0, 0), new Size(contentWidth * scale, contentHeight * scale)));
 
                 // デバッグ出力でサイズを確認
                 Console.WriteLine($"Printable Width: {printableWidth}, Printable Height: {printableHeight}");
-                Console.WriteLine($"PrintArea Desired Size: {PrintArea.DesiredSize}");
+                Console.WriteLine($"Scaled PrintArea Size: {PrintArea.ActualWidth * scale} x {PrintArea.ActualHeight * scale}");
 
-                // ビジュアルの実際のサイズをPDFのページサイズに合わせ、余白を追加
+                // 印刷用のビジュアルを作成
                 DrawingVisual visual = new DrawingVisual();
                 using (DrawingContext context = visual.RenderOpen())
                 {
-                    // 余白を適用して描画
+                    // スケーリングされたコンテンツを描画
                     VisualBrush brush = new VisualBrush(PrintArea);
-                    context.DrawRectangle(brush, null, new Rect(new Point(margin, margin), contentSize));
+                    //context.DrawRectangle(brush, null, new Rect(new Point(0, 0), new Size(printableWidth, printableHeight)));
+                    context.DrawRectangle(brush, null, new Rect(new Point(originX, originY), new Size(printableWidth, printableHeight)));
                 }
 
+                // 印刷を実行
                 printDialog.PrintVisual(visual, "Print Preview");
-
-                MessageBox.Show("印刷が完了しました。");
 
                 // 元のレイアウトに戻す
                 PrintArea.LayoutTransform = originalTransform;
-                // 印刷ボタンを再表示する
+
+                // 印刷ボタンと他のコントロールを再表示
                 printButton.Visibility = Visibility.Visible;
                 PrintList.Visibility = Visibility.Visible;
                 ExitButton.Visibility = Visibility.Visible;
+
+                MessageBox.Show("印刷が完了しました。");
             }
         }
 
