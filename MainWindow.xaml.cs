@@ -193,6 +193,7 @@ namespace ControlChart
                         {
                             cmbCtrl.Add(item);
                         }
+                        ChartDisplay();
                     }
                 }
                 catch (Exception ex)
@@ -404,7 +405,7 @@ namespace ControlChart
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonChartDisplay_Click(object sender, RoutedEventArgs e)
+        private void ChartDisplay( )
         {
             // コントロールマスタの取得
             if (GetMasterData() == false)
@@ -535,7 +536,7 @@ namespace ControlChart
                     // コントロールQCロットデータの取得（D_CTRL_QCLOT_INFO -> ctrlLots）
                     List<D_CTRL_QCLOT_INFO> ctrlLots = new List<D_CTRL_QCLOT_INFO>();
                     string sqlLot = "select * from D_CTRL_QCLOT_INFO"
-                        + $" where K_CODE = '{itemCode}' and TUBE_CODE = '{tubeCode}'"
+                        + $" where K_CODE = '{itemCode}' and TUBE_CODE = '*'"
                         + " order by S_DATE desc";
                     DataTable resultLot = oracleDb.ExecuteQuery(sqlLot);
                     if (resultLot != null && resultLot.Rows.Count > 0)
@@ -791,7 +792,7 @@ namespace ControlChart
         /// <param name="e"></param>
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            //UpdateChart();
+            UpdateChart();
         }
 
         /// <summary>
@@ -890,6 +891,34 @@ namespace ControlChart
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// ボタン（前へ）クリック時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnBefore_Click(object sender, RoutedEventArgs e)
+        {
+            // 現在のインデックスを取得して1つ前のアイテムを選択
+            if (CmbItemList.SelectedIndex > 0)
+            {
+                CmbItemList.SelectedIndex--;
+            }
+        }
+
+        /// <summary>
+        /// ボタン（次へ）クリック時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnRear_Click(object sender, RoutedEventArgs e)
+        {
+            // 現在のインデックスを取得して1つ後のアイテムを選択
+            if (CmbItemList.SelectedIndex < CmbItemList.Items.Count - 1)
+            {
+                CmbItemList.SelectedIndex++;
+            }
         }
     }
 

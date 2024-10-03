@@ -30,26 +30,11 @@
         <Label Content="項目コード:" Grid.Row="0" Grid.Column="0" Margin="2"/>
         <TextBox x:Name="TxtK_CODE" Grid.Row="0" Grid.Column="1" Margin="2" Width="100" HorizontalAlignment="Left" IsReadOnly="True"/>
 
-        <Label Content="コントロール:" Grid.Row="0" Grid.Column="2" Margin="2"/>
-        <ComboBox x:Name="CmbCtrlList" Grid.Row="0" Grid.Column="3" Width="100" SelectionChanged="CmbTubeList_SelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding CtrlCode}" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding CtrlName}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,5,0,5" Width="620" Height="201">
             <DataGrid x:Name="dataGridLot" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="開始日付" Binding="{Binding Path=S_DATE}" Width="auto" IsReadOnly="True"/>
                     <DataGridTextColumn Header="ロットNo" Binding="{Binding Path=QCLOT_NO}" Width="auto" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="管理値" Binding="{Binding Path=MNGVAL, Mode=TwoWay}" Width="auto"/>
-                    <DataGridTextColumn Header="日間CV" Binding="{Binding Path=DAYOVER_CV, Mode=TwoWay}" Width="auto"/>
-                    <DataGridTextColumn Header="日内CV" Binding="{Binding Path=DAYIN_CV, Mode=TwoWay}" Width="auto"/>
                     <DataGridTextColumn Header="特記事項" Binding="{Binding Path=SPEC_MEMO, Mode=TwoWay}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -69,17 +54,8 @@
         <Label Content="ロット番号" Grid.Row="4" Grid.Column="1"/>
         <TextBox x:Name="TxtQCLOT_NO" Grid.Row="5" Grid.Column="1" Margin="2" Width="100" HorizontalAlignment="Left"/>
 
-        <Label Content="管理値" Grid.Row="4" Grid.Column="2"/>
-        <TextBox x:Name="TxtMNGVAL" Grid.Row="5" Grid.Column="2" Margin="2" Width="100" HorizontalAlignment="Left"/>
-
-        <Label Content="日間CV" Grid.Row="4" Grid.Column="3"/>
-        <TextBox x:Name="TxtDAYOVER_CV" Grid.Row="5" Grid.Column="3" Margin="2" Width="100" HorizontalAlignment="Left"/>
-
-        <Label Content="日内CV" Grid.Row="4" Grid.Column="4"/>
-        <TextBox x:Name="TxtDAYIN_CV" Grid.Row="5" Grid.Column="4" Margin="2" Width="100" HorizontalAlignment="Left"/>
-
         <Label Content="特記事項" Grid.Row="4" Grid.Column="5"/>
-        <TextBox x:Name="TxtSPEC_MEMO" Grid.Row="5" Grid.Column="6" Margin="2" Width="200" HorizontalAlignment="Left"/>
+        <TextBox x:Name="TxtSPEC_MEMO" Grid.Row="5" Grid.Column="6" Margin="2" Width="500" HorizontalAlignment="Left"/>
 
         <Grid Grid.Row="6" Grid.Column="0"  Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">

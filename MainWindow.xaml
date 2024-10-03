@@ -55,6 +55,11 @@
                         </ComboBox>
                     </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <Button x:Name="BtnBefore" Content="＜" HorizontalAlignment="Left" Margin="80,0,0,0" Click="BtnBefore_Click" />
+                        <Button x:Name="BtnRear" Content="＞" HorizontalAlignment="Left" Margin="20,0,0,0" Click="BtnRear_Click" />
+                    </StackPanel>
+                    
                     <!-- 項目名、テキストボックス（リードオンリー） -->
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <Label Content="項目名" Width="80"/>
@@ -89,8 +94,6 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <!-- チャート表示ボタン -->
-            <Button x:Name="ButtonChartDisplay" Grid.Row="1" Content="チャート表示" Click="ButtonChartDisplay_Click" HorizontalAlignment="Stretch" Padding="10,5" Margin="50,5,50,5"/>
             <!-- 印刷ボタン -->
             <Button x:Name ="PrintButton" Grid.Row="2" Content="印刷" Click="PrintButton_Click" Padding="10,5" Margin="50,5,50,5"/>
             <!-- ロット変更ボタン -->

@@ -31,8 +31,6 @@ namespace ControlChart
         private string connectStrOra = ConfigurationManager.AppSettings["OraConnectString"];
         // ロット情報のグリッド表示用
         public ObservableCollection<dCtrlLot> gridCtrlLot { get; set; }
-        private ObservableCollection<CtrlList> cmbCtrl = new ObservableCollection<CtrlList>();
-
 
         public LotChange()
         {
@@ -54,64 +52,32 @@ namespace ControlChart
             // イベントを処理済みとしてマーク
             e.Handled = true;
         }
+
+        /// <summary>
+        /// フォームロード
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            TxtK_CODE.Text = ownerK_CODE;
-
-            try
-            {
-                cmbCtrl.Clear();
-                OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
-
-                string sql = $"select K_CODE, TUBE_CODE, MNG_RYAK from M_CTRL_TUBE where K_CODE = '{ownerK_CODE}'";
-                sql += " order by TUBE_CODE";
-                DataTable result = oracleDb.ExecuteQuery(sql);
-
-                if (result != null)
-                {
-                    var items = from DataRow row in result.Rows
-                    select new CtrlList
-                    {
-                        CtrlCode = row["TUBE_CODE"].ToString(),
-                        CtrlName = row["MNG_RYAK"].ToString()
-                    };
-                    foreach (var item in items)
-                    {
-                        cmbCtrl.Add(item);
-                    }
-                }
-                this.CmbCtrlList.ItemsSource = cmbCtrl;
-            }
-            catch (Exception ex)
-            {
-                // エラーハンドリング：適切なログ記録やメッセージ表示を行う
-                MessageBox.Show($"データの読み込み中にエラーが発生しました: {ex.Message}", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
+            this.TxtK_CODE.Text = ownerK_CODE;
 
             // データグリッドの初期化（登録データの取得）
             gridCtrlLot = new ObservableCollection<dCtrlLot>();
-            gridCtrlLot.Clear();
-            dataGridLot.ItemsSource = gridCtrlLot;
-
+            set_gridCtrlTube();
         }
+
         private void set_gridCtrlTube()
         {
             gridCtrlLot.Clear();
+
             try
             {
                 OracleDatabase db = new OracleDatabase(ConfigurationManager.AppSettings["OraConnectString"]);
 
-                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
-                if (string.IsNullOrEmpty(ctrlCode))
+                DataTable dt = db.ExecuteQuery("select * from D_CTRL_QCLOT_INFO where K_CODE = :K_CODE order by S_DATE", new Dictionary<string, object>
                 {
-                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
-                DataTable dt = db.ExecuteQuery("select * from D_CTRL_QCLOT_INFO where K_CODE = :K_CODE and TUBE_CODE = :TUBE_CODE order by S_DATE", new Dictionary<string, object>
-                {
-                    { "K_CODE", ownerK_CODE },
-                    { "TUBE_CODE", ctrlCode }
+                    { "K_CODE", ownerK_CODE }
                 });
 
                 foreach (DataRow row in dt.Rows)
@@ -120,12 +86,10 @@ namespace ControlChart
                     {
                         S_DATE = row["S_DATE"].ToString(),
                         QCLOT_NO = row["QCLOT_NO"].ToString(),
-                        MNGVAL = row["MNGVAL"].ToString(),
-                        DAYOVER_CV = row["DAYOVER_CV"].ToString(),
-                        DAYIN_CV = row["DAYIN_CV"].ToString(),
                         SPEC_MEMO = row["SPEC_MEMO"].ToString()
                     });
                 }
+                dataGridLot.ItemsSource = gridCtrlLot;
             }
             catch (Exception ex)
             {
@@ -151,13 +115,7 @@ namespace ControlChart
                 {
                     OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                    string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
-                    if (string.IsNullOrEmpty(ctrlCode))
-                    {
-                        MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return;
-                    }
-                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
+                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result.Rows.Count <= 0)
@@ -167,9 +125,8 @@ namespace ControlChart
                     }
                     // 更新処理
                     sql = $"update D_CTRL_QCLOT_INFO set"
-                        + $" MNGVAL='{selectedRow.MNGVAL}', DAYOVER_CV='{selectedRow.DAYOVER_CV}'"
-                        + $", DAYIN_CV='{selectedRow.DAYIN_CV}', SPEC_MEMO='{selectedRow.SPEC_MEMO}'"
-                        + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
+                        + $" SPEC_MEMO='{selectedRow.SPEC_MEMO}'"
+                        + $" where K_CODE='{TxtK_CODE.Text}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     oracleDb.ExecuteNonQuery(sql);
                 }
@@ -197,13 +154,7 @@ namespace ControlChart
                 {
                     OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                    string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
-                    if (string.IsNullOrEmpty(ctrlCode))
-                    {
-                        MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return;
-                    }
-                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
+                    string sql = $"select * from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result.Rows.Count <= 0)
@@ -212,7 +163,7 @@ namespace ControlChart
                         return;
                     }
                     // 削除処理
-                    sql = $"delete from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
+                    sql = $"delete from D_CTRL_QCLOT_INFO where K_CODE='{TxtK_CODE.Text}'"
                         + $" and QCLOT_NO='{selectedRow.QCLOT_NO}' and S_DATE='{selectedRow.S_DATE}'";
                     oracleDb.ExecuteNonQuery(sql);
                 }
@@ -244,14 +195,8 @@ namespace ControlChart
 
                 OracleDatabase oracleDb = new OracleDatabase(connectStrOra);
 
-                string ctrlCode = CmbCtrlList.SelectedItem is CtrlList selectedItem ? selectedItem.CtrlCode : "";
-                if (string.IsNullOrEmpty(ctrlCode))
-                {
-                    MessageBox.Show("コントロールコードを選択してください。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
                 string sql = $"select * from D_CTRL_QCLOT_INFO"
-                    + $" where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}' and S_DATE='{dateStart}'";
+                    + $" where K_CODE='{TxtK_CODE.Text}' and S_DATE='{dateStart}'";
                 DataTable result = oracleDb.ExecuteQuery(sql);
                 if (result.Rows.Count > 0)
                 {
@@ -259,16 +204,12 @@ namespace ControlChart
                     return;
                 }
                 // 新規登録処理
-                sql = $"insert into D_CTRL_QCLOT_INFO (QCLOT_NO, TUBE_CODE, K_CODE, MNGVAL, DAYOVER_CV, DAYIN_CV, S_DATE, SPEC_MEMO)"
-                    + $" values ('{TxtQCLOT_NO.Text}','{ctrlCode}','{TxtK_CODE.Text}','{TxtMNGVAL.Text}'"
-                    + $",'{TxtDAYOVER_CV.Text}','{TxtDAYIN_CV.Text}','{dateStart}','{TxtSPEC_MEMO.Text}')";
+                sql = $"insert into D_CTRL_QCLOT_INFO (QCLOT_NO, TUBE_CODE, K_CODE, S_DATE, SPEC_MEMO)"
+                    + $" values ('{TxtQCLOT_NO.Text}','*','{TxtK_CODE.Text}','{dateStart}','{TxtSPEC_MEMO.Text}')";
                 oracleDb.ExecuteNonQuery(sql);
 
                 StartDatePicker.SelectedDate = DateTime.Now;
                 TxtQCLOT_NO.Text = "";
-                TxtMNGVAL.Text = "";
-                TxtDAYOVER_CV.Text = "";
-                TxtDAYIN_CV.Text = "";
                 TxtSPEC_MEMO.Text = "";
 
                 set_gridCtrlTube();
@@ -298,9 +239,6 @@ namespace ControlChart
         {
             private string _sDate;
             private string _qclotNo;
-            private string _mngVal;
-            private string _dayoverCv;
-            private string _dayinCv;
             private string _specMemo;
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -330,42 +268,6 @@ namespace ControlChart
                     {
                         _qclotNo = value;
                         OnPropertyChanged(nameof(QCLOT_NO));
-                    }
-                }
-            }
-            public string MNGVAL
-            {
-                get { return _mngVal; }
-                set
-                {
-                    if (_mngVal != value)
-                    {
-                        _mngVal = value;
-                        OnPropertyChanged(nameof(MNGVAL));
-                    }
-                }
-            }
-            public string DAYOVER_CV
-            {
-                get { return _dayoverCv; }
-                set
-                {
-                    if (_dayoverCv != value)
-                    {
-                        _dayoverCv = value;
-                        OnPropertyChanged(nameof(DAYOVER_CV));
-                    }
-                }
-            }
-            public string DAYIN_CV
-            {
-                get { return _dayinCv; }
-                set
-                {
-                    if (_dayinCv != value)
-                    {
-                        _dayinCv = value;
-                        OnPropertyChanged(nameof(DAYIN_CV));
                     }
                 }
             }
