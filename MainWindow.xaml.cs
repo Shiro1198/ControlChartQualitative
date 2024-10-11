@@ -23,6 +23,10 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Microsoft.SqlServer.Server;
 using static ControlChart.ClassDataTable;
 using System.Runtime.InteropServices.ComTypes;
+using ControlChartQualitative;
+using System.Drawing;
+using LiveCharts.Wpf.Charts.Base;
+using LiveCharts.Definitions.Charts;
 
 namespace ControlChart
 {
@@ -39,6 +43,7 @@ namespace ControlChart
         private M_CTRL_CHART mCtrlChart = new M_CTRL_CHART();
         private List<M_CTRL_TUBE> mCtrlTube = new List<M_CTRL_TUBE>();
         private List<string> yLabels = new List<string>();
+        private List<string> uclLine = new List<string>();
 
         public string SelectOption { get; set; } = "All";  // ラジオボタンの選択オプション
 
@@ -79,6 +84,23 @@ namespace ControlChart
             InitializeDatePicker();
             // コンボボックス（項目コード）の初期化
             LoadComboBoxItems();
+
+            // 認証画面
+            Logon staffAuth = new Logon(this);
+
+            // 認証画面を表示する。
+            _ = staffAuth.ShowDialog();
+            // 実施者（被験者）を取得する。
+            if (staffAuth.PractitionerFlag)
+            {
+                this.LoginID.Text = staffAuth.BarcodeNo;
+                this.LoginName.Text = staffAuth.Name;
+            }
+            else
+            {
+                this.LoginID.Text = "";
+                this.LoginName.Text = "";
+            }
         }
 
         /// <summary>
@@ -216,10 +238,39 @@ namespace ControlChart
 
             // チャートに表示するデータを作成
             var qualitativeData = new ChartValues<DateModel>();
-            // AppSettingsを取得　<add key="Y-Axis1005" value="4+,3+,2+,1+,normal"/>
-            string appKey = "Y-Axis" + mCtrlChart.K_CODE;
-            string appVal = ConfigurationManager.AppSettings[appKey];
-            yLabels = new List<string>(appVal.Split(','));
+
+            yLabels = new List<string>();
+            uclLine = new List<string>();
+
+            // データの最後のレコードからY軸のラベルを取得
+            int pnt = data.Count - 1;
+
+            var dataLevels = new[]
+            {
+                    data[pnt].Lv0, data[pnt].Lv1, data[pnt].Lv2, data[pnt].Lv3,
+                    data[pnt].Lv4, data[pnt].Lv5, data[pnt].Lv6, data[pnt].Lv7
+            };
+            foreach (var level in dataLevels)
+            {
+                string[] splitLevel = level.Split(':');
+                if (splitLevel.Length > 1)
+                {
+                    if (splitLevel[0] == "-")
+                        yLabels.Add(" -");
+                    else if (splitLevel[0] == "+")
+                        yLabels.Add(" +");
+                    else
+                        yLabels.Add(splitLevel[0]);
+                    uclLine.Add(splitLevel[1]);
+                }
+            }
+            if (yLabels.Count <= 0)
+            {
+                // AppSettingsを取得　<add key="Y-Axis1005" value="4+,3+,2+,1+,normal"/>
+                string appKey = "Y-Axis" + mCtrlChart.K_CODE;
+                string appVal = ConfigurationManager.AppSettings[appKey];
+                yLabels = new List<string>(appVal.Split(','));
+            }
 
             int sequence = 1;
             foreach (var dt in data)
@@ -257,21 +308,75 @@ namespace ControlChart
             sequenceLabels.AddRange(qualitativeData.Select(av => av.Sequence.ToString()));
 
             dspChart(qualitativeData, sequenceLabels, tubeNo);
-
-
             return true;
         }
 
-
         /// <summary>
-        /// X Barチャートを表示する
+        /// チャートを表示する
         /// </summary>
         /// <param name="averages"></param>
         /// <param name="sequenceLabels"></param>
         private void dspChart(ChartValues<DateModel> qualitativeData, List<string> sequenceLabels, int tubeNo)
         {
             ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
-            switch(tubeNo)
+
+            // チャート初期化
+            initChart(tubeNo, qualitativeData);
+
+            // LotNumberの変化を検出し、変化点でセグメントを分割する
+            var currentLotNumber = qualitativeData.First().LotNumber;
+            var currentSegment = new ChartValues<DateModel>();
+            var colors = new List<System.Windows.Media.Brush> { System.Windows.Media.Brushes.Blue
+                , System.Windows.Media.Brushes.Green, System.Windows.Media.Brushes.Orange, System.Windows.Media.Brushes.Purple };
+            int colorIndex = 0;
+            foreach (var data in qualitativeData)
+            {
+                if (data.LotNumber != currentLotNumber)
+                {
+                    // 新しいセグメントを追加
+                    AddSegmentToChart(controlChartCalculator, tubeNo, currentSegment, colors[colorIndex % colors.Count]);
+                    colorIndex++;
+                    currentSegment = new ChartValues<DateModel>();
+                    currentLotNumber = data.LotNumber;
+                }
+                currentSegment.Add(data);
+            }
+            // 最後のセグメントを追加
+            AddSegmentToChart(controlChartCalculator, tubeNo, currentSegment, colors[colorIndex % colors.Count]);
+
+            // X軸の設定
+            SetXAxis(tubeNo, sequenceLabels);
+
+            // Y軸の設定
+            SetYAxis(tubeNo);
+
+            // チャートに上限ラインを表示
+            double uclIndex = 0;
+            foreach( var line in uclLine)
+            {
+                if (double.TryParse(line, out double dblLine))
+                {
+                    if (dblLine > 0)
+                        if (tubeNo == 0)
+                            controlChartCalculator.AddConstantLine(Chart_1, uclIndex, "UCL", System.Windows.Media.Brushes.Red, new DoubleCollection { 1, 2 });
+                        else if (tubeNo == 1)
+                            controlChartCalculator.AddConstantLine(Chart_2, uclIndex, "UCL", System.Windows.Media.Brushes.Red, new DoubleCollection { 1, 2 });
+                }
+                uclIndex++;
+            }
+
+            // チャートをリフレッシュ
+            chartRefresh(tubeNo);
+        }
+
+        /// <summary>
+        /// チャート初期化
+        /// </summary>
+        /// <param name="tubeNo"></param>
+        /// <param name="qualitativeData"></param>
+        private void initChart(int tubeNo, ChartValues<DateModel> qualitativeData)
+        {
+            switch (tubeNo)
             {
                 case 0:
                     Chart_1.Series.Clear();
@@ -292,48 +397,27 @@ namespace ControlChart
                 default:
                     return;
             }
-
-            // LotNumberの変化を検出し、変化点でセグメントを分割する
-            var currentLotNumber = qualitativeData.First().LotNumber;
-            var currentSegment = new ChartValues<DateModel>();
-            var colors = new List<Brush> { Brushes.Blue, Brushes.Red, Brushes.Green, Brushes.Orange, Brushes.Purple };
-            int colorIndex = 0;
-            foreach (var data in qualitativeData)
-            {
-                if (data.LotNumber != currentLotNumber)
-                {
-                    // 新しいセグメントを追加
-                    switch(tubeNo)
-                    {
-                        case 0:
-                            controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Chart1");
-                            break;
-                        case 1:
-                            controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Chart2");
-                            break;
-                        default:
-                            break;
-                    }
-                    colorIndex++;
-                    currentSegment = new ChartValues<DateModel>();
-                    currentLotNumber = data.LotNumber;
-                }
-                currentSegment.Add(data);
-            }
-            // 最後のセグメントを追加
-            switch(tubeNo)
+        }
+        // セグメントをチャートに追加するヘルパーメソッド
+        private void AddSegmentToChart(ControlChartCalculator controlChartCalculator, int tubeNo, ChartValues<DateModel> segment
+            , System.Windows.Media.Brush color)
+        {
+            switch (tubeNo)
             {
                 case 0:
-                    controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Chart1");
+                    controlChartCalculator.AddSegmentToChart(Chart_1, segment, color, "Chart1");
                     break;
                 case 1:
-                    controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Chart2");
+                    controlChartCalculator.AddSegmentToChart(Chart_2, segment, color, "Chart2");
                     break;
                 default:
                     break;
             }
+        }
 
-            // X軸の設定
+        // X軸の設定メソッド
+        private void SetXAxis(int tubeNo, List<string> sequenceLabels)
+        {
             var axisX = new Axis
             {
                 Title = "",
@@ -342,9 +426,9 @@ namespace ControlChart
                 MinValue = 1,
                 MaxValue = sequenceLabels.Count - 1
             };
-            switch(tubeNo)
+            switch (tubeNo)
             {
-               case 0:
+                case 0:
                     Chart_1.AxisX.Add(axisX);
                     break;
                 case 1:
@@ -353,15 +437,19 @@ namespace ControlChart
                 default:
                     break;
             }
-            // Y軸の設定
+        }
+
+        // Y軸の設定メソッド
+        private void SetYAxis(int tubeNo)
+        {
             var axisY = new Axis
             {
                 Title = "",
                 Labels = yLabels,
-                MinValue = 0,                   // "Normal" のインデックス
-                MaxValue = yLabels.Count - 1,   // "4+" のインデックス
+                MinValue = 0,
+                MaxValue = yLabels.Count - 1
             };
-            switch(tubeNo)
+            switch (tubeNo)
             {
                 case 0:
                     Chart_1.AxisY.Add(axisY);
@@ -372,22 +460,15 @@ namespace ControlChart
                 default:
                     break;
             }
-            // 2SDおよび3SDのラインをチャートに追加
-            //controlChartCalculator.AddConstantLine(XBarChart, UCL, "UCL", Brushes.Orange, null);                                    // 実線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, UCL2Sigma, "2σ", Brushes.Orange, new DoubleCollection { 1, 2 });     // 点線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, overallAverage, "平均", Brushes.Blue, new DoubleCollection { 2, 2 }); // 破線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, LCL2Sigma, "-2σ", Brushes.Orange, new DoubleCollection { 1, 2 });
-            //controlChartCalculator.AddConstantLine(XBarChart, LCL, "LCL", Brushes.Orange, null);
+        }
 
-            //lblXBarCv.Content = $"CV: {(cv * 100):F2} %";
-            //lblXBarStandardDeviation.Content = $"SD: {standardDeviation:F3}";
-            //lblUCLValue.Content = $"UCL: {strUCL}";
-            //lbl2SDValue.Content = $"+2σ: {strUCL2Sigma}";
-            //lblAverageValue.Content = $"CL: {strAverage}";
-            //lblMinus2SDValue.Content = $"-2σ: {strLCL2Sigma}";
-            //lblLCLValue.Content = $"LCL: {strLCL}";
-            // チャートをリフレッシュ
-            switch(tubeNo)
+        /// <summary>
+        /// チャートをリフレッシュ
+        /// </summary>
+        /// <param name="tubeNo"></param>
+        private void chartRefresh(int tubeNo)
+        {
+            switch (tubeNo)
             {
                 case 0:
                     Chart_1.Update(true, true);
@@ -398,8 +479,8 @@ namespace ControlChart
                 default:
                     break;
             }
-        }
 
+        }
         /// <summary>
         /// ボタン（チャート表示）クリック時の処理
         /// </summary>
@@ -535,9 +616,12 @@ namespace ControlChart
 
                     // コントロールQCロットデータの取得（D_CTRL_QCLOT_INFO -> ctrlLots）
                     List<D_CTRL_QCLOT_INFO> ctrlLots = new List<D_CTRL_QCLOT_INFO>();
-                    string sqlLot = "select * from D_CTRL_QCLOT_INFO"
-                        + $" where K_CODE = '{itemCode}' and TUBE_CODE = '*'"
-                        + " order by S_DATE desc";
+                    string sqlLot = "select a.QCLOT_NO, a.K_CODE, a.S_DATE"
+                        + ", b.TUBE_CODE, b.LV_0, b.LV_1, b.LV_2, b.LV_3, b.LV_4, b.LV_5, b.LV_6, b.LV_7"
+                        + " from D_CTRL_QCLOT_INFO a"
+                        + " left join D_CTRL_QCLOT_TEISEI b on a.QCLOT_NO = b.QCLOT_NO and a.K_CODE = b.K_CODE and a.S_DATE = b.S_DATE"
+                        + $" where a.K_CODE = '{itemCode}' and a.TUBE_CODE = '*' and b.TUBE_CODE = '{tubeCode}'"
+                        + " order by a.S_DATE desc";
                     DataTable resultLot = oracleDb.ExecuteQuery(sqlLot);
                     if (resultLot != null && resultLot.Rows.Count > 0)
                     {
@@ -560,7 +644,7 @@ namespace ControlChart
                     }
                     // CSVファイルのヘッダー行を作成
                     var sb = new StringBuilder();
-                    sb.AppendLine("Date,Value,LotNo");
+                    sb.AppendLine("Date,Value,LotNo,Lv0,Lv1,Lv2,Lv3,Lv4,Lv5,Lv6,Lv7");
                     // 有効データの取得
                     string dateFrom = startDate.Value.ToString("yyyyMMdd");
                     string dateTo = endDate.Value.ToString("yyyyMMdd");
@@ -582,6 +666,7 @@ namespace ControlChart
                         {
                             // LOT番号を取得
                             string lotNo = "";
+                            string lv0 = "", lv1 = "", lv2 = "", lv3 = "", lv4 = "", lv5 = "", lv6 = "", lv7 = "";
                             foreach (D_CTRL_QCLOT_INFO ctrlLot in ctrlLots)
                             {
                                 double lotDate = double.TryParse(ctrlLot.S_DATE, out double dblDate) ? dblDate : 0;
@@ -589,6 +674,14 @@ namespace ControlChart
                                 if (knsDate >= lotDate)
                                 {
                                     lotNo = ctrlLot.QCLOT_NO;
+                                    lv0 = ctrlLot.LV_0;
+                                    lv1 = ctrlLot.LV_1;
+                                    lv2 = ctrlLot.LV_2;
+                                    lv3 = ctrlLot.LV_3;
+                                    lv4 = ctrlLot.LV_4;
+                                    lv5 = ctrlLot.LV_5;
+                                    lv6 = ctrlLot.LV_6;
+                                    lv7 = ctrlLot.LV_7;
                                     break;
                                 }
                             }
@@ -598,8 +691,7 @@ namespace ControlChart
                             {
                                 strDate = dt.ToString("yyyy/MM/dd");
                                 string strValue = row["DOSE"].ToString();
-                                string strLotNo = lotNo;
-                                sb.AppendLine($"{strDate},{strValue},{strLotNo}");
+                                sb.AppendLine($"{strDate},{strValue},{lotNo},{lv0},{lv1},{lv2},{lv3},{lv4},{lv5},{lv6},{lv7}");
                             }
                         }
                     }
@@ -743,7 +835,6 @@ namespace ControlChart
                 //WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 mCtrlChart = this.mCtrlChart,
                 mCtrlTube = this.mCtrlTube,
-                yLabels = this.yLabels,
                 startDate = (DateTime)StartDatePicker.SelectedDate.Value.Date,
                 endDate = (DateTime)EndDatePicker.SelectedDate.Value.Date
             };
@@ -819,6 +910,7 @@ namespace ControlChart
                         if (File.Exists(filePath))
                         {
                             var filteredData = dataGenerator.FilterDataByDateRange(dataGenerator.ReadCsvData(filePath), startDate.Value, endDate.Value);
+                            // コントロールチャートを更新する
                             if (DisplayCharts(filteredData, tubeNo) == false)
                                 return false;
                             tubeNo++;
@@ -866,6 +958,7 @@ namespace ControlChart
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             lotChange.ownerK_CODE = CmbItemList.SelectedItem is ItemList selectedItem ? selectedItem.ItemCode : "";
+            lotChange.ownerLoginID = this.LoginID.Text;
 
             lotChange.ShowDialog();
         }
@@ -890,7 +983,8 @@ namespace ControlChart
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            // メインウィンドウを閉じるとともに、アプリケーション全体を終了させる
+            Application.Current.Shutdown();
         }
 
         /// <summary>
@@ -929,6 +1023,7 @@ namespace ControlChart
         public int Index { get; set; }
         public string Value { get; set; }
         public string LotNumber { get; set; }
+        public System.Windows.Media.Brush PointColor { get; set; } // ラベル色
     }
 
     public class DateValue
@@ -936,6 +1031,14 @@ namespace ControlChart
         public DateTime Date { get; set; }
         public string Value { get; set; }
         public string LotNumber { get; set; }
+        public string Lv0 { get; set; }
+        public string Lv1 { get; set; }
+        public string Lv2 { get; set; }
+        public string Lv3 { get; set; }
+        public string Lv4 { get; set; }
+        public string Lv5 { get; set; }
+        public string Lv6 { get; set; }
+        public string Lv7 { get; set; }
     }
 
     /// <summary>

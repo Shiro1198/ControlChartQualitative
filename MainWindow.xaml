@@ -40,6 +40,13 @@
             <Grid Grid.Row="0">
 
                 <StackPanel Margin="2">
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <Label Content="Login ID:"/>
+                        <TextBox x:Name="LoginID" Margin="5,0,0,0" Width="60" IsReadOnly="True" Text="0000" />
+                        <TextBox x:Name="LoginName" Margin="5,0,0,0" Width="auto" IsReadOnly="True" />
+                    </StackPanel>
+
                     <!-- 項目＋プルダウン -->
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <Label Content="項目" Width="80"/>

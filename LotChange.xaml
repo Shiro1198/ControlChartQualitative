@@ -5,13 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlChart"
         mc:Ignorable="d"
-        Title="LotChange" Height="450" Width="800">
+        Title="LotChange" Height="500">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -27,11 +23,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Content="項目コード:" Grid.Row="0" Grid.Column="0" Margin="2"/>
-        <TextBox x:Name="TxtK_CODE" Grid.Row="0" Grid.Column="1" Margin="2" Width="100" HorizontalAlignment="Left" IsReadOnly="True"/>
-
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,5,0,5" Width="620" Height="201">
-            <DataGrid x:Name="dataGridLot" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False" Margin="2">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Content="項目コード:" Margin="2"/>
+            <TextBox x:Name="TxtK_CODE" Margin="2" Width="100" HorizontalAlignment="Left" IsReadOnly="True"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Grid.Column="0" Width="Auto" Height="200" Margin="2,0,2,0">
+            <DataGrid x:Name="dataGridLot" CanUserAddRows="False" HorizontalAlignment="Left" VerticalAlignment="Stretch" AutoGenerateColumns="False" Margin="2" 
+                      SelectionChanged="dataGridLot_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="開始日付" Binding="{Binding Path=S_DATE}" Width="auto" IsReadOnly="True"/>
                     <DataGridTextColumn Header="ロットNo" Binding="{Binding Path=QCLOT_NO}" Width="auto" IsReadOnly="True"/>
@@ -39,6 +38,62 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <!-- High,Low -->
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- （HIGH） -->
+            <TextBox Grid.Row="0" Grid.Column="0" x:Name="txtCtrlHigh" Text="HIGH"/>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                <ComboBox x:Name="cmbVal_H0" Width="70"/>
+                <CheckBox x:Name="chkChk_H0" Content=""/>
+                <ComboBox x:Name="cmbVal_H1" Width="70"/>
+                <CheckBox x:Name="chkChk_H1" Content=""/>
+                <ComboBox x:Name="cmbVal_H2" Width="70"/>
+                <CheckBox x:Name="chkChk_H2" Content=""/>
+                <ComboBox x:Name="cmbVal_H3" Width="70"/>
+                <CheckBox x:Name="chkChk_H3" Content=""/>
+                <ComboBox x:Name="cmbVal_H4" Width="70"/>
+                <CheckBox x:Name="chkChk_H4" Content=""/>
+                <ComboBox x:Name="cmbVal_H5" Width="70"/>
+                <CheckBox x:Name="chkChk_H5" Content=""/>
+                <ComboBox x:Name="cmbVal_H6" Width="70"/>
+                <CheckBox x:Name="chkChk_H6" Content=""/>
+                <ComboBox x:Name="cmbVal_H7" Width="70"/>
+                <CheckBox x:Name="chkChk_H7" Content=""/>
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Border Height="1" Background="Black" HorizontalAlignment="Stretch" Margin="2,10,2,10"/>
+            </Grid>
+            <TextBox Grid.Row="2" Grid.Column="0" x:Name="txtCtrlLow" Text="LOW"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <ComboBox x:Name="cmbVal_L0" Width="70"/>
+                <CheckBox x:Name="chkChk_L0" Content=""/>
+                <ComboBox x:Name="cmbVal_L1" Width="70"/>
+                <CheckBox x:Name="chkChk_L1" Content=""/>
+                <ComboBox x:Name="cmbVal_L2" Width="70"/>
+                <CheckBox x:Name="chkChk_L2" Content=""/>
+                <ComboBox x:Name="cmbVal_L3" Width="70"/>
+                <CheckBox x:Name="chkChk_L3" Content=""/>
+                <ComboBox x:Name="cmbVal_L4" Width="70"/>
+                <CheckBox x:Name="chkChk_L4" Content=""/>
+                <ComboBox x:Name="cmbVal_L5" Width="70"/>
+                <CheckBox x:Name="chkChk_L5" Content=""/>
+                <ComboBox x:Name="cmbVal_L6" Width="70"/>
+                <CheckBox x:Name="chkChk_L6" Content=""/>
+                <ComboBox x:Name="cmbVal_L7" Width="70"/>
+                <CheckBox x:Name="chkChk_L7" Content=""/>
+            </StackPanel>
+        </Grid>
+        
         <Grid Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="registerButton" Content="更新" Margin="5" Width="80" Click="RegisterButton_Click" HorizontalAlignment="Left"/>
@@ -48,14 +103,69 @@
 
         <Border Height="1" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="7" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
 
-        <Label Content="開始日" Grid.Row="4" Grid.Column="0"/>
-        <DatePicker Name="StartDatePicker" Grid.Row="5" Grid.Column="0" SelectedDateChanged="DatePicker_SelectedDateChanged" />
-
-        <Label Content="ロット番号" Grid.Row="4" Grid.Column="1"/>
-        <TextBox x:Name="TxtQCLOT_NO" Grid.Row="5" Grid.Column="1" Margin="2" Width="100" HorizontalAlignment="Left"/>
-
-        <Label Content="特記事項" Grid.Row="4" Grid.Column="5"/>
-        <TextBox x:Name="TxtSPEC_MEMO" Grid.Row="5" Grid.Column="6" Margin="2" Width="500" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Content="開始日"/>
+            <DatePicker Name="StartDatePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" />
+            <Label Content="ロット番号"/>
+            <TextBox x:Name="TxtQCLOT_NO" Margin="2" Width="100" HorizontalAlignment="Left"/>
+            <Label Content="特記事項"/>
+            <TextBox x:Name="TxtSPEC_MEMO" Margin="2" Width="400" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <!-- High,Low -->
+        <Grid Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- （HIGH） -->
+            <TextBox Grid.Row="0" Grid.Column="0" x:Name="CtrlHigh" Text="HIGH"/>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                <ComboBox x:Name="Val_H0" Width="70"/>
+                <CheckBox x:Name="Chk_H0" Content=""/>
+                <ComboBox x:Name="Val_H1" Width="70"/>
+                <CheckBox x:Name="Chk_H1" Content=""/>
+                <ComboBox x:Name="Val_H2" Width="70"/>
+                <CheckBox x:Name="Chk_H2" Content=""/>
+                <ComboBox x:Name="Val_H3" Width="70"/>
+                <CheckBox x:Name="Chk_H3" Content=""/>
+                <ComboBox x:Name="Val_H4" Width="70"/>
+                <CheckBox x:Name="Chk_H4" Content=""/>
+                <ComboBox x:Name="Val_H5" Width="70"/>
+                <CheckBox x:Name="Chk_H5" Content=""/>
+                <ComboBox x:Name="Val_H6" Width="70"/>
+                <CheckBox x:Name="Chk_H6" Content=""/>
+                <ComboBox x:Name="Val_H7" Width="70"/>
+                <CheckBox x:Name="Chk_H7" Content=""/>
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Border Height="1" Background="Black" HorizontalAlignment="Stretch" Margin="2,10,2,10"/>
+            </Grid>
+            <TextBox Grid.Row="2" Grid.Column="0" x:Name="CtrlLow" Text="LOW"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <ComboBox x:Name="Val_L0" Width="70"/>
+                <CheckBox x:Name="Chk_L0" Content=""/>
+                <ComboBox x:Name="Val_L1" Width="70"/>
+                <CheckBox x:Name="Chk_L1" Content=""/>
+                <ComboBox x:Name="Val_L2" Width="70"/>
+                <CheckBox x:Name="Chk_L2" Content=""/>
+                <ComboBox x:Name="Val_L3" Width="70"/>
+                <CheckBox x:Name="Chk_L3" Content=""/>
+                <ComboBox x:Name="Val_L4" Width="70"/>
+                <CheckBox x:Name="Chk_L4" Content=""/>
+                <ComboBox x:Name="Val_L5" Width="70"/>
+                <CheckBox x:Name="Chk_L5" Content=""/>
+                <ComboBox x:Name="Val_L6" Width="70"/>
+                <CheckBox x:Name="Chk_L6" Content=""/>
+                <ComboBox x:Name="Val_L7" Width="70"/>
+                <CheckBox x:Name="Chk_L7" Content=""/>
+            </StackPanel>
+        </Grid>
 
         <Grid Grid.Row="6" Grid.Column="0"  Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
@@ -66,7 +176,7 @@
         <Border Height="1" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
 
         <Grid Grid.Row="8" Grid.Column="0"  Grid.ColumnSpan="6">
-            <Button x:Name="exitButton" Content="終了" Margin="2,2,10,2" Width="80" Click="ExitButton_Click" HorizontalAlignment="Right"/>
+            <Button x:Name="exitButton" Content="終了" Margin="2,5,10,5" Width="80" Click="ExitButton_Click" HorizontalAlignment="Right" Height="20"/>
         </Grid>
 
     </Grid>

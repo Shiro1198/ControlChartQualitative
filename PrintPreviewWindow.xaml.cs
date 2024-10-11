@@ -3,6 +3,8 @@ using LiveCharts.Wpf;
 using LiveCharts.Wpf.Charts.Base;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Printing;
@@ -20,7 +22,9 @@ namespace ControlChart
     {
         public M_CTRL_CHART mCtrlChart { get; set; }        // マスタ（コントロールチャート）
         public  List<M_CTRL_TUBE> mCtrlTube = new List<M_CTRL_TUBE>();
-        public List<string> yLabels = new List<string>();
+        private List<string> yLabels = new List<string>();
+        private List<string> uclLine = new List<string>();
+
         public DateTime? startDate { get; set; }            // 開始日
         public DateTime? endDate { get; set; }              // 終了日
 
@@ -93,6 +97,38 @@ namespace ControlChart
 
             // チャートに表示するデータを作成
             var qualitativeData = new ChartValues<DateModel>();
+            yLabels = new List<string>();
+            uclLine = new List<string>();
+
+            // データの最後のレコードからY軸のラベルを取得
+            int pnt = data.Count - 1;
+
+            var dataLevels = new[]
+            {
+                    data[pnt].Lv0, data[pnt].Lv1, data[pnt].Lv2, data[pnt].Lv3,
+                    data[pnt].Lv4, data[pnt].Lv5, data[pnt].Lv6, data[pnt].Lv7
+            };
+            foreach (var level in dataLevels)
+            {
+                string[] splitLevel = level.Split(':');
+                if (splitLevel.Length > 1)
+                {
+                    if (splitLevel[0] == "-")
+                        yLabels.Add(" -");
+                    else if (splitLevel[0] == "+")
+                        yLabels.Add(" +");
+                    else
+                        yLabels.Add(splitLevel[0]);
+                    uclLine.Add(splitLevel[1]);
+                }
+            }
+            if (yLabels.Count <= 0)
+            {
+                // AppSettingsを取得　<add key="Y-Axis1005" value="4+,3+,2+,1+,normal"/>
+                string appKey = "Y-Axis" + mCtrlChart.K_CODE;
+                string appVal = ConfigurationManager.AppSettings[appKey];
+                yLabels = new List<string>(appVal.Split(','));
+            }
 
             int sequence = 1;
             foreach (var dt in data)
@@ -141,6 +177,63 @@ namespace ControlChart
         {
             ControlChartCalculator controlChartCalculator = new ControlChartCalculator();
 
+            // チャート初期化
+            initChart(tubeNo);
+
+            // LotNumberの変化を検出し、変化点でセグメントを分割する
+            var currentLotNumber = averages.First().LotNumber;
+            var currentSegment = new ChartValues<DateModel>();
+            var colors = new List<System.Windows.Media.Brush> { System.Windows.Media.Brushes.Blue
+                , System.Windows.Media.Brushes.Green, System.Windows.Media.Brushes.Orange, System.Windows.Media.Brushes.Purple };
+            int colorIndex = 0;
+            foreach (var data in averages)
+            {
+                if (data.LotNumber != currentLotNumber)
+                {
+                    // 新しいセグメントを追加
+                    AddSegmentToChart(controlChartCalculator, tubeNo, currentSegment, colors[colorIndex % colors.Count]);
+                    colorIndex++;
+                    currentSegment = new ChartValues<DateModel>();
+                    currentLotNumber = data.LotNumber;
+                }
+                currentSegment.Add(data);
+            }
+            // 最後のセグメントを追加
+            AddSegmentToChart(controlChartCalculator, tubeNo, currentSegment, colors[colorIndex % colors.Count]);
+
+            // X軸の設定
+            SetXAxis(tubeNo, sequenceLabels);
+
+            // Y軸の設定
+            SetYAxis(tubeNo);
+
+            // チャートに上限ラインを表示
+            double uclIndex = 0;
+            foreach (var line in uclLine)
+            {
+                if (double.TryParse(line, out double dblLine))
+                {
+                    if (dblLine > 0)
+                        if (tubeNo == 0)
+                            controlChartCalculator.AddConstantLine(Chart_1, uclIndex, "UCL", System.Windows.Media.Brushes.Red, new DoubleCollection { 1, 2 });
+                        else if (tubeNo == 1)
+                            controlChartCalculator.AddConstantLine(Chart_2, uclIndex, "UCL", System.Windows.Media.Brushes.Red, new DoubleCollection { 1, 2 });
+                }
+                uclIndex++;
+            }
+
+            // チャートをリフレッシュ
+            chartRefresh(tubeNo);
+
+        }
+
+        /// <summary>
+        /// チャート初期化
+        /// </summary>
+        /// <param name="tubeNo"></param>
+        /// <param name="qualitativeData"></param>
+        private void initChart(int tubeNo)
+        {
             switch (tubeNo)
             {
                 case 0:
@@ -162,47 +255,28 @@ namespace ControlChart
                 default:
                     return;
             }
+        }
 
-            // LotNumberの変化を検出し、変化点でセグメントを分割する
-            var currentLotNumber = averages.First().LotNumber;
-            var currentSegment = new ChartValues<DateModel>();
-            var colors = new List<Brush> { Brushes.Blue, Brushes.Red, Brushes.Green, Brushes.Orange, Brushes.Purple };
-            int colorIndex = 0;
-            foreach (var data in averages)
-            {
-                if (data.LotNumber != currentLotNumber)
-                {
-                    // 新しいセグメントを追加
-                    switch (tubeNo)
-                    {
-                        case 0:
-                            controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Xbar");
-                            break;
-                        case 1:
-                            controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Xbar");
-                            break;
-                        default:
-                            break;
-                    }
-                    colorIndex++;
-                    currentSegment = new ChartValues<DateModel>();
-                    currentLotNumber = data.LotNumber;
-                }
-                currentSegment.Add(data);
-            }
-            // 最後のセグメントを追加
+        // セグメントをチャートに追加するヘルパーメソッド
+        private void AddSegmentToChart(ControlChartCalculator controlChartCalculator, int tubeNo, ChartValues<DateModel> segment
+            , System.Windows.Media.Brush color)
+        {
             switch (tubeNo)
             {
                 case 0:
-                    controlChartCalculator.AddSegmentToChart(Chart_1, currentSegment, colors[colorIndex % colors.Count], "Xbar");
+                    controlChartCalculator.AddSegmentToChart(Chart_1, segment, color, "high");
                     break;
                 case 1:
-                    controlChartCalculator.AddSegmentToChart(Chart_2, currentSegment, colors[colorIndex % colors.Count], "Xbar");
+                    controlChartCalculator.AddSegmentToChart(Chart_2, segment, color, "low");
                     break;
                 default:
                     break;
             }
-            // X軸の設定
+        }
+
+        // X軸の設定メソッド
+        private void SetXAxis(int tubeNo, List<string> sequenceLabels)
+        {
             var axisX = new Axis
             {
                 Title = "",
@@ -222,8 +296,11 @@ namespace ControlChart
                 default:
                     break;
             }
+        }
 
-            // Y軸の設定
+        // Y軸の設定メソッド
+        private void SetYAxis(int tubeNo)
+        {
             var axisY = new Axis
             {
                 Title = "",
@@ -242,38 +319,14 @@ namespace ControlChart
                 default:
                     break;
             }
+        }
 
-            // 2SDおよび3SDのラインをチャートに追加
-            //controlChartCalculator.AddConstantLine(XBarChart, UCL, "UCL", Brushes.Orange, null);                                    // 実線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, UCL2Sigma, "2σ", Brushes.Orange, new DoubleCollection { 1, 2 });     // 点線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, overallAverage, "平均", Brushes.Blue, new DoubleCollection { 2, 2 }); // 破線で表示
-            //controlChartCalculator.AddConstantLine(XBarChart, LCL2Sigma, "-2σ", Brushes.Orange, new DoubleCollection { 1, 2 });
-            //controlChartCalculator.AddConstantLine(XBarChart, LCL, "LCL", Brushes.Orange, null);
-
-            //textCV_S.Text = $"{cv:F2} %";
-            //textSD_S.Text = $"{standardDeviation:F3}";
-
-            //// UCLを表示
-            //lblUCLValue.Content = $"UCL: {strUCL}";
-            //textUCL_Xbar.Text = strUCL;
-            //textUCL_Xbar_M.Text = "";
-            //// 2SDを表示
-            //lbl2SDValue.Content = $"+2σ: {strUCL2Sigma}";
-            //text2Sigma_Xber.Text = strUCL2Sigma;
-            //text2Sigma_Xber_M.Text = "";
-            //// 平均を表示
-            //lblAverageValue.Content = $"CL: {strAverage}";
-            //textXbar.Text = strAverage;
-            //textXbar_M.Text = "";
-            //// -2SDを表示
-            //lblMinus2SDValue.Content = $"-2σ: {strLCL2Sigma}";
-            //textMinus2Sigma_Xbar.Text = strLCL2Sigma;
-            //textMinus2Sigma_Xbar_M.Text = "";
-            //// LCLを表示
-            //lblLCLValue.Content = $"LCL: {strLCL}";
-            //textLCL_Xbar.Text = strLCL;
-            //textLCL_Xbar_M.Text = "";
-            // チャートをリフレッシュ
+        /// <summary>
+        /// チャートをリフレッシュ
+        /// </summary>
+        /// <param name="tubeNo"></param>
+        private void chartRefresh(int tubeNo)
+        {
             switch (tubeNo)
             {
                 case 0:
@@ -286,7 +339,6 @@ namespace ControlChart
                     break;
             }
         }
-
 
         public void msg(string st)
         {
@@ -325,8 +377,8 @@ namespace ControlChart
                 PrintArea.LayoutTransform = null; // レイアウトを印刷用にリセット
 
                 // コンテンツのサイズを設定
-                PrintArea.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                PrintArea.Arrange(new Rect(new Point(0, 0), new Size(PrintArea.ActualWidth, PrintArea.ActualHeight)));
+                PrintArea.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                PrintArea.Arrange(new Rect(new System.Windows.Point(0, 0), new System.Windows.Size(PrintArea.ActualWidth, PrintArea.ActualHeight)));
 
                 // 印刷するコンテンツのサイズを取得
                 double contentWidth = PrintArea.ActualWidth;
@@ -340,8 +392,8 @@ namespace ControlChart
                 PrintArea.LayoutTransform = scaleTransform;
 
                 // レイアウトの更新を強制
-                PrintArea.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                PrintArea.Arrange(new Rect(new Point(0, 0), new Size(contentWidth * scale, contentHeight * scale)));
+                PrintArea.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                PrintArea.Arrange(new Rect(new System.Windows.Point(0, 0), new System.Windows.Size(contentWidth * scale, contentHeight * scale)));
 
                 // デバッグ出力でサイズを確認
                 Console.WriteLine($"Printable Width: {printableWidth}, Printable Height: {printableHeight}");
@@ -354,7 +406,7 @@ namespace ControlChart
                     // スケーリングされたコンテンツを描画
                     VisualBrush brush = new VisualBrush(PrintArea);
                     //context.DrawRectangle(brush, null, new Rect(new Point(0, 0), new Size(printableWidth, printableHeight)));
-                    context.DrawRectangle(brush, null, new Rect(new Point(originX, originY), new Size(printableWidth, printableHeight)));
+                    context.DrawRectangle(brush, null, new Rect(new System.Windows.Point(originX, originY), new System.Windows.Size(printableWidth, printableHeight)));
                 }
 
                 // 印刷を実行

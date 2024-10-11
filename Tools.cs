@@ -40,7 +40,9 @@ namespace ControlChart
                     {
                         var value = parts[1];
                         var lotNumber = parts[2];
-                        data.Add(new DateValue { Date = date, Value = value, LotNumber = lotNumber });
+                        data.Add(new DateValue { Date = date, Value = value, LotNumber = lotNumber
+                            , Lv0 = parts[3], Lv1 = parts[4], Lv2 = parts[5], Lv3 = parts[6], Lv4 = parts[7], Lv5 = parts[8], Lv6 = parts[9], Lv7 = parts[10]
+                        });
                     }
                 }
             }
@@ -297,7 +299,7 @@ namespace ControlChart
                         Stroke = color,
                         Fill = Brushes.Transparent,
                         LineSmoothness = 0,
-                        DataLabels = false
+                        DataLabels = true
                     };
                     cChart.Series.Add(lineSeries);
                 }

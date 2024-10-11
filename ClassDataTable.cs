@@ -31,11 +31,16 @@ namespace ControlChart
             public string QCLOT_NO { get; set; }        // QCロットNo
             public string TUBE_CODE { get; set; }       // チューブコード
             public string K_CODE { get; set; }          // 項目コード
-            public string MNGVAL { get; set; }          // 管理値
-            public string DAYOVER_CV { get; set; }      // 日間CV
-            public string DAYIN_CV { get; set; }        // 日内CV
             public string S_DATE { get; set; }          // 開始日付
             public string SPEC_MEMO { get; set; }       // 特記事項
+            public string LV_0 { get; set; }
+            public string LV_1 { get; set; }
+            public string LV_2 { get; set; }
+            public string LV_3 { get; set; }
+            public string LV_4 { get; set; }
+            public string LV_5 { get; set; }
+            public string LV_6 { get; set; }
+            public string LV_7 { get; set; }
         }
     }
 }

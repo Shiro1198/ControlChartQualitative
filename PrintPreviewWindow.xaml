@@ -19,7 +19,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="1,1,1,1">
-            <Label x:Name="labelDocName" Content="Xbar-Rs-R Control Chart" HorizontalAlignment="Left" Margin="10,0,0,0" />
+            <Label x:Name="labelDocName" Content="尿検査成績管理表" HorizontalAlignment="Left" Margin="10,0,0,0" />
             <Button x:Name="PrintList" Content="プリンタ一覧" Margin="5" Click="PrinterList_Click"/>
             <Button x:Name="PrintButton" Content="印刷" Margin="5" Click="PrintButton_Click"/>
             <Button x:Name="ExitButton" Content="終了" Margin="5" Click="ExitButton_Click"/>
@@ -83,7 +83,7 @@
 
             <!-- Data Row 2 -->
             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.5,0.5,1">
-                <TextBlock Text="N" Margin="2"/>
+                <TextBlock Text="" Margin="2"/>
             </Border>
             <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,0.5,0.5,1">
                 <TextBlock x:Name="textCTRLPARM_DISP_SU" Margin="2"/>
@@ -1807,19 +1807,19 @@
                 <Label Content=""/>
             </Border>
             <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="部長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
                 <Label Content=""/>
             </Border>
             <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="課長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
                 <Label Content=""/>
             </Border>
             <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="係長" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
                 <Label Content=""/>

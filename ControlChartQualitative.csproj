@@ -103,6 +103,9 @@
     <Compile Include="DataMentenance_Sub.xaml.cs">
       <DependentUpon>DataMentenance_Sub.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logon.xaml.cs">
+      <DependentUpon>Logon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LotChange.xaml.cs">
       <DependentUpon>LotChange.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataMentenance_Sub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Logon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
