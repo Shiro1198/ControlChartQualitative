@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Printing;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -55,6 +56,7 @@ namespace ControlChart
             this.textK_NAME.Text = mCtrlChart.K_NAME;                   // 項目名称
             this.textASSAY_STYLE.Text = mCtrlChart.ASSAY_STYLE;         // 検査方法
             this.textASSAY_UNIT_NAME.Text = mCtrlChart.ASSAY_UNIT_NAME; // 検査単位名称
+            this.TxtMEMO_INF.Text = mCtrlChart.MEMO_INF;                // 備考
             //this.textCTRLPARM_DISP_SU.Text = mCtrlTube.CTRLPARM_DISP_SU.ToString(); // CTRL係数・表示本数
             if (startDate == null) return;
             if (endDate == null) return;
@@ -130,14 +132,50 @@ namespace ControlChart
                 yLabels = new List<string>(appVal.Split(','));
             }
 
-            int sequence = 1;
-            foreach (var dt in data)
+            // コメントマークがついているデータを除外
+            List<DateValue> filterData = new List<DateValue>();
+            foreach(var dt in data)
             {
-                int index = yLabels.IndexOf(dt.Value);
-                qualitativeData.Add(new DateModel { Sequence = sequence, DateTime = dt.Date, Index = index, Value = dt.Value, LotNumber = dt.LotNumber });
-                sequence++;
+                if (dt.Mark.Trim() != "?" && dt.Mark.Trim() != "!")
+                {
+                    filterData.Add(dt);
+                }
             }
+            int sequence = 1;
+            int skipCount = filterData.Count - 60;
+            foreach (var dt in filterData)
+            {
+                if (skipCount >= 0)
+                {
+                    skipCount--;
+                }
+                else
+                {
+                    int index = yLabels.IndexOf(dt.Value);
+                    qualitativeData.Add(new DateModel { Sequence = sequence, DateTime = dt.Date, Index = index, Value = dt.Value, LotNumber = dt.LotNumber });
+                    sequence++;
 
+                }
+            }
+            // UCLフラグのデータを作成（グリッド表示で赤色にするため）
+            List<string> uclFlgData = new List<string>();
+            uclFlgData.AddRange(uclLine);
+            bool bFlg = false;
+            for (int i = 0; i < uclFlgData.Count; i++)
+            {
+                if (bFlg)
+                {
+                    uclFlgData[i] = "1";
+                }
+                else
+                {
+                    if (uclFlgData[i] == "1")
+                    {
+                        bFlg = true;
+                        uclFlgData[i] = "1";
+                    }
+                }
+            }
             // データグリッドに全ての値を表示
             string qcLotNo = "";
             foreach (var item in qualitativeData)
@@ -146,7 +184,24 @@ namespace ControlChart
                 string sSeq = item.Sequence.ToString();
                 setTextBlock($"Seq{sTubeNo}_{sSeq}", item.Sequence.ToString());
                 setTextBlock($"Date{sTubeNo}_{sSeq}", item.DateTime.ToString("M.d"));
-                setTextBlock($"Value{sTubeNo}_{sSeq}", item.Value);
+
+                string fldName = $"Value{sTubeNo}_{sSeq}";
+                var textblock = FindName(fldName) as TextBlock;
+                if (textblock != null)
+                {
+                    textblock.Text = item.Value;
+                    for (int i = 0; i < yLabels.Count; i++)
+                    {
+                        if (item.Value == yLabels[i])
+                        {
+                            if (uclFlgData[i] == "1")
+                                textblock.Foreground = System.Windows.Media.Brushes.Red;
+                            else
+                                textblock.Foreground = System.Windows.Media.Brushes.Black;
+                            break;
+                        }
+                    }
+                }
                 setTextBlock($"Lot{sTubeNo}_{sSeq}", item.LotNumber);
                 if (item.LotNumber != qcLotNo)
                 {
@@ -166,7 +221,9 @@ namespace ControlChart
         {
             var textblock = FindName(strName) as TextBlock;
             if (textblock != null)
+            {
                 textblock.Text = strText;
+            }
         }
         /// <summary>
         /// X Barチャートを表示する

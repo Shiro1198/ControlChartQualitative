@@ -136,19 +136,14 @@ namespace ControlChart
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    string kensaDate = row["KENSA_DATE"].ToString();
-                    int subNo = int.Parse(row["SUB_NO"].ToString());
-                    int? doseNo = int.TryParse(row["DOSE_NO"].ToString(), out int iNo) ? iNo : (int?)null;
-                    string dose = row["DOSE"].ToString();
-                    DateTime impDate = DateTime.Parse(row["IMP_DATE"].ToString());
-
                     gridCtrlData.Add(new dCtrlData
                     {
-                        KENSA_DATE = kensaDate,
-                        SUB_NO = subNo,
-                        DOSE_NO = doseNo,
-                        DOSE = dose,
-                        IMP_DATE = impDate
+                        KENSA_DATE = row["KENSA_DATE"].ToString(),
+                        SUB_NO = int.TryParse(row["SUB_NO"].ToString(), out int iNo) ? iNo : 0,
+                        DOSE_NO = row["DOSE_NO"].ToString(),
+                        DOSE = row["DOSE"].ToString(),
+                        MARK = row["MARK"].ToString(),
+                        IMP_DATE = DateTime.TryParse(row["IMP_DATE"].ToString(), out DateTime dtImp) ? dtImp : DateTime.Now
                     });
                 }
                 DataGridCtrlData.Items.Refresh();
@@ -243,18 +238,11 @@ namespace ControlChart
                         return;
                     }
                     // 更新処理
-                    string doseNo = "";
-                    if (selectedRow.DOSE_NO == null)
-                    {
-                        doseNo = "null";
-                    }
-                    else
-                    {
-                        doseNo = selectedRow.DOSE_NO.ToString();
-                    }
+                    string doseNo = selectedRow.DOSE_NO.ToString() == "" ? "null" : selectedRow.DOSE_NO.ToString();
                     sql = $"update D_CTRL_DATA_RESRV set"
                         + $" DOSE_NO={doseNo}"
                         + $", DOSE='{selectedRow.DOSE}'"
+                        + $", MARK='{selectedRow.MARK}'"
                         + $"  where K_CODE='{TxtK_CODE.Text}' and TUBE_CODE='{ctrlCode}'"
                         + $" and KENSA_DATE='{selectedRow.KENSA_DATE}' and SUB_NO={selectedRow.SUB_NO}";
                     oracleDb.ExecuteNonQuery(sql);
@@ -310,7 +298,7 @@ namespace ControlChart
                 KensaDatePicker.SelectedDate = DateTime.Now;
                 TxtSUB_NO.Text = "";
                 TxtDOSE.Text = "";
-                EndDatePicker.SelectedDate = startDate;
+                //EndDatePicker.SelectedDate = startDate;
 
                 set_gridCtrlData();
 
@@ -539,8 +527,9 @@ namespace ControlChart
         {
             private string _kensaDate;
             private int _subNo;
-            private int? _doseNo;
+            private string _doseNo;
             private string _dose;
+            private string _mark;
             private DateTime _impDate;
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -573,7 +562,7 @@ namespace ControlChart
                     }
                 }
             }
-            public int? DOSE_NO
+            public string DOSE_NO
             {
                 get { return _doseNo; }
                 set
@@ -594,6 +583,18 @@ namespace ControlChart
                     {
                         _dose = value;
                         OnPropertyChanged(nameof(DOSE));
+                    }
+                }
+            }
+            public string MARK
+            {
+                get { return _mark; }
+                set
+                {
+                    if (_mark != value)
+                    {
+                        _mark = value;
+                        OnPropertyChanged(nameof(MARK));
                     }
                 }
             }
@@ -644,19 +645,14 @@ namespace ControlChart
 
                 foreach (DataRow row in result.Rows)
                 {
-                    string kensaDate = row["KENSA_DATE"].ToString();
-                    int subNo = int.Parse(row["SUB_NO"].ToString());
-                    int? doseNo = int.TryParse(row["DOSE_NO"].ToString(), out int iNo) ? iNo : (int?)null;
-                    string dose = row["DOSE"].ToString();
-                    DateTime impDate = DateTime.Parse(row["IMP_DATE"].ToString());
-
                     gridCtrlData.Add(new dCtrlData
                     {
-                        KENSA_DATE = kensaDate,
-                        SUB_NO = subNo,
-                        DOSE_NO = doseNo,
-                        DOSE = dose,
-                        IMP_DATE = impDate
+                        KENSA_DATE = row["KENSA_DATE"].ToString(),
+                        SUB_NO = int.TryParse(row["SUB_NO"].ToString(), out int iSub) ? iSub : 0,
+                        DOSE_NO = row["DOSE_NO"].ToString(),
+                        DOSE = row["DOSE"].ToString(),
+                        MARK = row["MARK"].ToString(),
+                        IMP_DATE = DateTime.TryParse(row["IMP_DATE"].ToString(), out DateTime dtImp) ? dtImp : DateTime.Now
                     });
                 }
             }

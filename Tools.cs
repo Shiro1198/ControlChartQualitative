@@ -39,9 +39,13 @@ namespace ControlChart
                     if (DateTime.TryParse(strDate, out DateTime date))
                     {
                         var value = parts[1];
-                        var lotNumber = parts[2];
-                        data.Add(new DateValue { Date = date, Value = value, LotNumber = lotNumber
-                            , Lv0 = parts[3], Lv1 = parts[4], Lv2 = parts[5], Lv3 = parts[6], Lv4 = parts[7], Lv5 = parts[8], Lv6 = parts[9], Lv7 = parts[10]
+                        var mark = parts[2];
+                        var impDate = parts[3];
+                        var lotNumber = parts[4];
+                        int lv = 5;
+                        data.Add(new DateValue { Date = date, Value = value, Mark = mark, ImpDate = impDate, LotNumber = lotNumber
+                            , Lv0 = parts[lv + 0], Lv1 = parts[lv + 1], Lv2 = parts[lv + 2], Lv3 = parts[lv + 3], Lv4 = parts[lv + 4], Lv5 = parts[lv + 5]
+                            , Lv6 = parts[lv + 6], Lv7 = parts[lv + 7]
                         });
                     }
                 }

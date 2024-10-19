@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:ControlChart"
         mc:Ignorable="d"
-        Title="精度管理"
+        Title="精度管理【尿（定性）】"
         Height="800" Width="1200"
         MinHeight="800" MinWidth="900"
         WindowState="Maximized">
@@ -134,7 +134,7 @@
             </Border>
         </Grid>
         <!-- データグリッド（１） -->
-        <DataGrid  Grid.Row="2" Grid.Column="1" x:Name="DataGridView_1" AutoGenerateColumns="False" Margin="10,2,10,2" Width="400" HorizontalAlignment="Left" CanUserAddRows="False">
+        <DataGrid  Grid.Row="2" Grid.Column="1" x:Name="DataGridView_1" AutoGenerateColumns="False" Margin="10,2,10,2" Width="Auto" HorizontalAlignment="Left" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sequence" Binding="{Binding Sequence}" >
                     <DataGridTextColumn.ElementStyle>
@@ -144,7 +144,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="DateTime" Binding="{Binding DateTime, StringFormat={}{0:yyyy/MM/dd}}" >
+                <DataGridTextColumn Header="測定日付" Binding="{Binding DateTime, StringFormat={}{0:yyyy/MM/dd}}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -152,15 +152,44 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Value" Binding="{Binding Value}" >
+                <DataGridTextColumn Header="定性値" Binding="{Binding Value}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
                             <Setter Property="Padding" Value="5,0,5,0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UclFlg}" Value="1">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="LotNumber" Binding="{Binding LotNumber}" >
+                <DataGridTextColumn Header="マーク" Binding="{Binding Mark}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Mark}" Value="?">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Mark}" Value="!">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="測定時刻" Binding="{Binding ImpDate}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ロットNo." Binding="{Binding LotNumber}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -190,7 +219,7 @@
         </Grid>
 
         <!-- データグリッド -->
-        <DataGrid  Grid.Row="5" Grid.Column="1" x:Name="DataGridView_2" AutoGenerateColumns="False" Margin="10,0,100,2" HorizontalAlignment="Left" Width="400" CanUserAddRows="False">
+        <DataGrid  Grid.Row="5" Grid.Column="1" x:Name="DataGridView_2" AutoGenerateColumns="False" Margin="10,0,100,2" HorizontalAlignment="Left" Width="Auto" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sequence" Binding="{Binding Sequence}" >
                     <DataGridTextColumn.ElementStyle>
@@ -200,7 +229,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="DateTime" Binding="{Binding DateTime, StringFormat={}{0:yyyy/MM/dd}}" >
+                <DataGridTextColumn Header="測定日付" Binding="{Binding DateTime, StringFormat={}{0:yyyy/MM/dd}}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -208,15 +237,44 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Value" Binding="{Binding Value}" >
+                <DataGridTextColumn Header="定性値" Binding="{Binding Value}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
                             <Setter Property="Padding" Value="5,0,5,0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UclFlg}" Value="1">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="LotNumber" Binding="{Binding LotNumber}" >
+                <DataGridTextColumn Header="マーク" Binding="{Binding Mark}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Mark}" Value="?">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Mark}" Value="!">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="測定時刻" Binding="{Binding ImpDate}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ロットNo." Binding="{Binding LotNumber}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Left" />

@@ -45,7 +45,6 @@ namespace ControlChart
                 TxtASSAY_STYLE.Text = "";
                 TxtASSAY_UNIT_NAME.Text = "";
                 TxtVALID_COL.Text = "";
-                RdoOther.IsChecked = true;
                 RdoRounding.IsChecked = true;
                 RdoRandom.IsChecked = true;
                 TxtMEMO_INF.Text = "";
@@ -57,7 +56,7 @@ namespace ControlChart
                     string query = "SELECT K_CODE, K_NAME, K_RYAK"
                         + ", TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS CREATE_DATE, TO_CHAR(UPDATE_DATE,'YYYY-MM-DD HH24:MI') AS UPDATE_DATE"
                         + ", MEMO_INF"
-                        + " FROM M_CTRL_CHART ORDER BY K_CODE";
+                        + " FROM M_CTRL_CHART WHERE K_KUBUN = '4' ORDER BY K_CODE";
 
                     OracleCommand command = new OracleCommand(query, connection);
                     OracleDataAdapter dataAdapter = new OracleDataAdapter(command);
@@ -96,24 +95,6 @@ namespace ControlChart
                         {
                             DataRow dataRow = ctrlDataTable.Rows[0];
                             TxtK_CODE.Text = dataRow["K_CODE"].ToString();
-                            // 丸目条件のラジオボタン設定
-                            string kind = dataRow["K_KUBUN"].ToString();
-                            if (kind == "0")
-                            {
-                                RdoOther.IsChecked = true;      // その他
-                            }
-                            else if (kind == "1")
-                            {
-                                RdoBlood.IsChecked = true;      // 血液
-                            }
-                            else if (kind == "2")
-                            {
-                                RdoBiochemistry.IsChecked = true;   // 生化学
-                            }
-                            else if (kind == "3")
-                            {
-                                RdoUrine.IsChecked = true;      // 尿
-                            }
                             TxtK_NAME.Text = dataRow["K_NAME"].ToString();
                             TxtK_RYAK.Text = dataRow["K_RYAK"].ToString();
                             TxtASSAY_STYLE.Text = dataRow["ASSAY_STYLE"].ToString();
@@ -209,7 +190,7 @@ namespace ControlChart
                             + $",GETSEL_KBN='{getGETSEL_KBN()}'"
                             + $",MEMO_INF='{TxtMEMO_INF.Text}'"
                             + $",UPDATE_DATE=sysdate"
-                            + $",K_KUBUN={getK_KUBUN()}"
+                            + $",K_KUBUN=4"
                             + $" where K_CODE={TxtK_CODE.Text}";
                         oracleDb.ExecuteNonQuery(sql);
 
@@ -252,7 +233,7 @@ namespace ControlChart
                 {
                     sql = $"insert into M_CTRL_CHART (K_CODE, K_NAME, K_RYAK, ASSAY_STYLE, ASSAY_UNIT_NAME, VALID_COL, MARU_COND, GETSEL_KBN, CREATE_DATE, K_KUBUN)"
                         + $" values ('{TxtK_CODE.Text}','{TxtK_NAME.Text}','{TxtK_RYAK.Text}','{TxtASSAY_STYLE.Text}','{TxtASSAY_UNIT_NAME.Text}'"
-                        + $",{TxtVALID_COL.Text},{getMARU_COND()},{getGETSEL_KBN()}, sysdate, {getK_KUBUN()})";
+                        + $",{TxtVALID_COL.Text},{getMARU_COND()},{getGETSEL_KBN()}, sysdate, 4)";
                     oracleDb.ExecuteNonQuery(sql);
 
                     MessageBox.Show("追加しました。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -266,18 +247,6 @@ namespace ControlChart
             {
                 MessageBox.Show($"レコード挿入中にエラーが発生しました: {ex.Message}", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        /// <summary>
-        /// 丸目条件のラジオボタンの設定値を取得する
-        /// </summary>
-        /// <returns></returns>
-        private string getK_KUBUN()
-        {
-            string kubun = RdoBlood.IsChecked == true ? "1" :
-                RdoBiochemistry.IsChecked == true ? "2" :
-                RdoUrine.IsChecked == true ? "3" : "0";
-            return kubun;
         }
 
         /// <summary>

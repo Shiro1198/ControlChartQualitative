@@ -57,6 +57,7 @@
                     <DataGridTextColumn Header="シーケンス" Binding="{Binding Path=SUB_NO}" Width="auto" IsReadOnly="True"/>
                     <DataGridTextColumn Header="選択No" Binding="{Binding Path=DOSE_NO, Mode=TwoWay}" Width="auto"/>
                     <DataGridTextColumn Header="測定値" Binding="{Binding Path=DOSE, Mode=TwoWay}" Width="auto"/>
+                    <DataGridTextColumn Header="マーク" Binding="{Binding Path=MARK, Mode=TwoWay}" Width="auto"/>
                     <DataGridTextColumn Header="取込日時" Binding="{Binding Path=IMP_DATE, Mode=TwoWay}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>

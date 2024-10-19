@@ -31,12 +31,7 @@
         <Label Content="コード:" Grid.Row="0" Grid.Column="0" Margin="2"/>
         <TextBox x:Name="TxtK_CODE" Grid.Row="0" Grid.Column="1" Margin="2" Width="200" HorizontalAlignment="Left"/>
         <Label Content="区分:" Grid.Row="0" Grid.Column="2" Margin="2"/>
-        <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
-            <RadioButton x:Name="RdoBlood" Content="血液" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
-            <RadioButton x:Name="RdoBiochemistry" Content="生化" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
-            <RadioButton x:Name="RdoUrine" Content="尿" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
-            <RadioButton x:Name="RdoOther" Content="その他" GroupName="Kubun" Margin="2" VerticalAlignment="Center"/>
-        </StackPanel>
+        <Label Content="4:尿（定性）" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left"/>
 
         <Label Content="名称:" Grid.Row="1" Grid.Column="0" Margin="2"/>
         <TextBox x:Name="TxtK_NAME" Grid.Row="1" Grid.Column="1" Margin="2" Width="200" HorizontalAlignment="Left"/>
@@ -68,8 +63,8 @@
         </StackPanel>
 
         <Label Content="備考:" Grid.Row="7" Grid.Column="0" Margin="2"/>
-        <TextBox x:Name="TxtMEMO_INF" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" Width="500" HorizontalAlignment="Left"/>
-        
+        <TextBox x:Name="TxtMEMO_INF" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" Width="500" HorizontalAlignment="Left" AcceptsReturn="True" TextWrapping="Wrap" Height="51"/>
+
         <Border Height="1" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Background="Black" HorizontalAlignment="Stretch" Margin="2,5,2,5"/>
 
         <!-- データグリッド -->

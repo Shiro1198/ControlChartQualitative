@@ -227,7 +227,6 @@ namespace ControlChart
             }
         }
 
-
         /// <summary>
         /// コントロールチャートを更新する
         /// </summary>
@@ -270,13 +269,75 @@ namespace ControlChart
                 string appKey = "Y-Axis" + mCtrlChart.K_CODE;
                 string appVal = ConfigurationManager.AppSettings[appKey];
                 yLabels = new List<string>(appVal.Split(','));
+                for (int i = 0; i < yLabels.Count; i++)
+                {
+                    uclLine.Add("0");
+                }
+                yLabels.Add("?!");
+                uclLine.Add("1");
+            }
+            else
+            {
+                yLabels.Add("?!");
+                uclLine.Add("0");
+            }
+
+            // UCLフラグのデータを作成（グリッド表示で赤色にするため）
+            List<string> uclFlgData = new List<string>();
+            uclFlgData.AddRange(uclLine);
+            bool bFlg = false;
+            for (int i = 0; i < uclFlgData.Count; i++)
+            {
+                if (bFlg)
+                {
+                    uclFlgData[i] = "1";
+                }
+                else
+                {
+                    if (uclFlgData[i] == "1")
+                    {
+                        bFlg = true;
+                        uclFlgData[i] = "1";
+                    }
+                }
+            }
+
+            bool flg = false;
+            for (int i = 0; i < uclFlgData.Count; i++)
+            {
+                if (flg)
+                {
+                    uclFlgData[i] = "1";
+                }
+                else
+                {
+                    if (uclFlgData[i] == "1")
+                    {
+                        flg = true;
+                        uclFlgData[i] = "1";
+                    }
+                }
             }
 
             int sequence = 1;
             foreach (var dt in data)
             {
-                int index = yLabels.IndexOf(dt.Value);
-                qualitativeData.Add(new DateModel { Sequence = sequence, DateTime = dt.Date, Index = index, Value = dt.Value, LotNumber = dt.LotNumber });
+                string value = dt.Value;
+                string mark = dt.Mark;
+
+                // マークが"?"または"!"の場合、Y軸の最後のラベルに表示
+                int index = 0;
+                if (mark == "?" || mark == "!")
+                {
+                    index = yLabels.Count - 1;
+                }
+                else
+                {
+                    index = yLabels.IndexOf(dt.Value);
+                }
+                
+                qualitativeData.Add(new DateModel { Sequence = sequence, DateTime = dt.Date, Index = index
+                    , Value = dt.Value, Mark = dt.Mark ,ImpDate = dt.ImpDate ,LotNumber = dt.LotNumber, UclFlg = uclFlgData[index] });
                 sequence++;
             }
 
@@ -492,8 +553,8 @@ namespace ControlChart
             if (GetMasterData() == false)
                 return;
             // 有効データの選択処理
-            if (ctrlDataSelect() == false)
-                return;
+            //if (ctrlDataSelect() == false)
+            //    return;
             // CSVファイルを作成する
             if (createCsvFile() == false)
                 return;
@@ -644,15 +705,15 @@ namespace ControlChart
                     }
                     // CSVファイルのヘッダー行を作成
                     var sb = new StringBuilder();
-                    sb.AppendLine("Date,Value,LotNo,Lv0,Lv1,Lv2,Lv3,Lv4,Lv5,Lv6,Lv7");
+                    sb.AppendLine("Date,Value,Mark,ImpDate,LotNo,Lv0,Lv1,Lv2,Lv3,Lv4,Lv5,Lv6,Lv7");
                     // 有効データの取得
                     string dateFrom = startDate.Value.ToString("yyyyMMdd");
                     string dateTo = endDate.Value.ToString("yyyyMMdd");
                     string sql = "select * from D_CTRL_DATA_RESRV"
                         + $" where KENSA_DATE between '{dateFrom}' and '{dateTo}'"
                         + $" and K_CODE = '{itemCode}' and TUBE_CODE = '{tubeCode}'"
-                        + " and DOSE_NO > 0"
-                        + " order by KENSA_DATE, DOSE_NO";
+                        // + " and DOSE_NO > 0"
+                        + " order by KENSA_DATE, IMP_DATE";
                     DataTable result = oracleDb.ExecuteQuery(sql);
                     if (result == null && result.Rows.Count <= 0)
                     {
@@ -691,7 +752,9 @@ namespace ControlChart
                             {
                                 strDate = dt.ToString("yyyy/MM/dd");
                                 string strValue = row["DOSE"].ToString();
-                                sb.AppendLine($"{strDate},{strValue},{lotNo},{lv0},{lv1},{lv2},{lv3},{lv4},{lv5},{lv6},{lv7}");
+                                string strMark = row["MARK"].ToString();
+                                string strImpDate = row["IMP_DATE"].ToString();
+                                sb.AppendLine($"{strDate},{strValue},{strMark},{strImpDate},{lotNo},{lv0},{lv1},{lv2},{lv3},{lv4},{lv5},{lv6},{lv7}");
                             }
                         }
                     }
@@ -910,7 +973,7 @@ namespace ControlChart
                         if (File.Exists(filePath))
                         {
                             var filteredData = dataGenerator.FilterDataByDateRange(dataGenerator.ReadCsvData(filePath), startDate.Value, endDate.Value);
-                            // コントロールチャートを更新する
+                            // ■コントロールチャートを更新する
                             if (DisplayCharts(filteredData, tubeNo) == false)
                                 return false;
                             tubeNo++;
@@ -1022,14 +1085,18 @@ namespace ControlChart
         public DateTime DateTime { get; set; }
         public int Index { get; set; }
         public string Value { get; set; }
+        public string Mark { get; set; }
+        public string ImpDate { get; set; }
         public string LotNumber { get; set; }
-        public System.Windows.Media.Brush PointColor { get; set; } // ラベル色
+        public string UclFlg { get; set; }
     }
 
     public class DateValue
     {
         public DateTime Date { get; set; }
         public string Value { get; set; }
+        public string Mark { get; set; }
+        public string ImpDate { get; set; }
         public string LotNumber { get; set; }
         public string Lv0 { get; set; }
         public string Lv1 { get; set; }

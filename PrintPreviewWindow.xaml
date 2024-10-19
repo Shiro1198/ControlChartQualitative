@@ -62,7 +62,7 @@
             </Border>
 
             <!-- Data Row 1 -->
-            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.5,0.5,0.5">
+            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock Text="単位" Margin="2"/>
             </Border>
             <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5">
@@ -77,7 +77,7 @@
             <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
                 <TextBlock Text="Lot No." Margin="2"/>
             </Border>
-            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,0.5,1,0.5">
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="textQCLOT_NO" Margin="2"/>
             </Border>
 
@@ -115,25 +115,25 @@
         </Grid>
 
         <!-- データグリッド（１） -->
-        <Grid Name="MainGrid_1" Grid.Row="4" Margin="0,2,0,2">
+        <Grid Name="MainGrid_1" Grid.Row="4" Margin="2">
             <!-- 列定義 -->
             <Grid.ColumnDefinitions>
                 <!-- 16列を定義 -->
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -160,233 +160,233 @@
             </Grid.RowDefinitions>
 
             <!-- ヘッダ定義 -->
-            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-
-            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
 
-            <Border Grid.Row="0" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="7" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
 
-            <Border Grid.Row="0" Grid.Column="12" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="8" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="9" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="10" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="11" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+
+            <Border Grid.Row="0" Grid.Column="12" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="13" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="14" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <!-- データ定義（１列目） -->
-            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_3" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_4" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_6" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_7" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_8" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_9" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_10" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_11" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_12" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot1_14" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq1_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -396,10 +396,10 @@
             <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -408,10 +408,10 @@
             <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -420,10 +420,10 @@
             <Border Grid.Row="3" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -432,10 +432,10 @@
             <Border Grid.Row="4" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -444,10 +444,10 @@
             <Border Grid.Row="5" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -456,10 +456,10 @@
             <Border Grid.Row="6" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -468,10 +468,10 @@
             <Border Grid.Row="7" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -480,10 +480,10 @@
             <Border Grid.Row="8" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -492,10 +492,10 @@
             <Border Grid.Row="9" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -504,10 +504,10 @@
             <Border Grid.Row="10" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -516,10 +516,10 @@
             <Border Grid.Row="11" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -528,10 +528,10 @@
             <Border Grid.Row="12" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -540,10 +540,10 @@
             <Border Grid.Row="13" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -552,10 +552,10 @@
             <Border Grid.Row="14" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -564,10 +564,10 @@
             <Border Grid.Row="15" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -577,10 +577,10 @@
             <Border Grid.Row="1" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -589,10 +589,10 @@
             <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -601,10 +601,10 @@
             <Border Grid.Row="3" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -613,10 +613,10 @@
             <Border Grid.Row="4" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -625,10 +625,10 @@
             <Border Grid.Row="5" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -637,10 +637,10 @@
             <Border Grid.Row="6" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -649,10 +649,10 @@
             <Border Grid.Row="7" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -661,10 +661,10 @@
             <Border Grid.Row="8" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -673,10 +673,10 @@
             <Border Grid.Row="9" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -685,10 +685,10 @@
             <Border Grid.Row="10" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -697,10 +697,10 @@
             <Border Grid.Row="11" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -709,10 +709,10 @@
             <Border Grid.Row="12" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -721,10 +721,10 @@
             <Border Grid.Row="13" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -733,10 +733,10 @@
             <Border Grid.Row="14" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -745,10 +745,10 @@
             <Border Grid.Row="15" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -758,181 +758,181 @@
             <Border Grid.Row="1" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_46" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="2" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_47" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="3" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_48" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="4" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_49" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="5" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_50" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="6" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_51" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="7" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_52" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="8" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_53" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="9" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_54" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="10" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_55" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="11" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_56" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="12" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_57" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="13" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_58" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="14" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_59" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq1_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date1_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value1_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="15" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot1_60" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
         </Grid>
@@ -956,25 +956,25 @@
             </Border>
         </Grid>
         <!-- データグリッド（１） -->
-        <Grid Name="MainGrid_2" Grid.Row="7" Margin="0,2,0,2">
+        <Grid Name="MainGrid_2" Grid.Row="7" Margin="2">
             <!-- 列定義 -->
             <Grid.ColumnDefinitions>
                 <!-- 16列を定義 -->
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -1001,233 +1001,233 @@
             </Grid.RowDefinitions>
 
             <!-- ヘッダ定義 -->
-            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-
-            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="7" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
 
-            <Border Grid.Row="0" Grid.Column="8" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="9" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="10" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="11" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="7" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <Border Grid.Row="0" Grid.Column="12" BorderBrush="Black" BorderThickness="1,1,0.5,1">
-                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="8" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="13" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="9" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="14" BorderBrush="Black" BorderThickness="0.5,1,0.5,1">
-                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="10" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
-            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0.5,1,1,1">
-                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+            <Border Grid.Row="0" Grid.Column="11" BorderBrush="Black" Background="LightGray" BorderThickness="0.2,0.2,1,0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+
+            <Border Grid.Row="0" Grid.Column="12" BorderBrush="Black" Background="LightGray" BorderThickness="1,0.2,0.2,0.2">
+                <TextBlock Text="No" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="13" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="日付" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="14" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="Data" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" Background="LightGray" BorderThickness="0.2">
+                <TextBlock Text="備考" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <!-- データ定義（１列目） -->
-            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_3" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_4" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_6" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_7" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_8" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_9" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_10" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_11" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_11" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_12" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_12" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_13" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_14" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
                 <TextBlock x:Name="Lot2_14" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="0" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Seq2_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="1" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="2" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_15" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="3" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1237,10 +1237,10 @@
             <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_16" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1249,10 +1249,10 @@
             <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_17" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1261,10 +1261,10 @@
             <Border Grid.Row="3" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_18" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1273,10 +1273,10 @@
             <Border Grid.Row="4" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_19" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1285,10 +1285,10 @@
             <Border Grid.Row="5" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_20" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1297,10 +1297,10 @@
             <Border Grid.Row="6" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_21" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1309,10 +1309,10 @@
             <Border Grid.Row="7" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_22" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1321,10 +1321,10 @@
             <Border Grid.Row="8" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_23" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1333,10 +1333,10 @@
             <Border Grid.Row="9" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1345,10 +1345,10 @@
             <Border Grid.Row="10" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_25" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1357,10 +1357,10 @@
             <Border Grid.Row="11" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_26" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1369,10 +1369,10 @@
             <Border Grid.Row="12" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_27" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1381,10 +1381,10 @@
             <Border Grid.Row="13" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_28" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1393,10 +1393,10 @@
             <Border Grid.Row="14" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_29" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1405,10 +1405,10 @@
             <Border Grid.Row="15" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="5" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="6" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="7" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1418,10 +1418,10 @@
             <Border Grid.Row="1" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_31" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="1" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1430,10 +1430,10 @@
             <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_32" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1442,10 +1442,10 @@
             <Border Grid.Row="3" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_33" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1454,10 +1454,10 @@
             <Border Grid.Row="4" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_34" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1466,10 +1466,10 @@
             <Border Grid.Row="5" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_35" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1478,10 +1478,10 @@
             <Border Grid.Row="6" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_36" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1490,10 +1490,10 @@
             <Border Grid.Row="7" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_37" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1502,10 +1502,10 @@
             <Border Grid.Row="8" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_38" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1514,10 +1514,10 @@
             <Border Grid.Row="9" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_39" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1526,10 +1526,10 @@
             <Border Grid.Row="10" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_40" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1538,10 +1538,10 @@
             <Border Grid.Row="11" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_41" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1550,10 +1550,10 @@
             <Border Grid.Row="12" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_42" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1562,10 +1562,10 @@
             <Border Grid.Row="13" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_43" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1574,10 +1574,10 @@
             <Border Grid.Row="14" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_44" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1586,10 +1586,10 @@
             <Border Grid.Row="15" Grid.Column="8" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="9" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="10" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_45" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="11" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
@@ -1599,181 +1599,181 @@
             <Border Grid.Row="1" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="1" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_46" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_46" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_47" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="2" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_47" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="3" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="3" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_48" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="3" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="3" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_48" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="4" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="4" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_49" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="4" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="4" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_49" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="5" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="5" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="5" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="5" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_50" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="6" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="6" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_51" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="6" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="6" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_51" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="7" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="7" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_52" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="7" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="7" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_52" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="8" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="8" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_53" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="8" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="8" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_53" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="9" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="9" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_54" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="9" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="9" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_54" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="10" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="10" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_55" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="10" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="10" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_55" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="11" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="11" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_56" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="11" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="11" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_56" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="12" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="12" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_57" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="12" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="12" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_57" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="13" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="13" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_58" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="13" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="13" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_58" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="14" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="14" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_59" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="14" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="14" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_59" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
             <Border Grid.Row="15" Grid.Column="12" BorderBrush="Black" BorderThickness="1,0.2,0.2,0.2">
                 <TextBlock x:Name="Seq2_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="13" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Date2_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2,0.2,0.2,0.2">
+            <Border Grid.Row="15" Grid.Column="14" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Value2_60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
             </Border>
-            <Border Grid.Row="15" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2,0.2,1,0.2">
+            <Border Grid.Row="15" Grid.Column="15" BorderBrush="Black" BorderThickness="0.2">
                 <TextBlock x:Name="Lot2_60" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             </Border>
         </Grid>
@@ -1787,7 +1787,6 @@
                 <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="70" />
-                <ColumnDefinition Width="70" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -1797,37 +1796,31 @@
                 <TextBlock Text="記事" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </Border>
             <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,1,1">
-                <Label Content=""/>
+                <TextBox x:Name="TxtMEMO_INF" Margin="2" HorizontalAlignment="Left" AcceptsReturn="True" TextWrapping="Wrap" BorderThickness="0" FontSize="9"/>
             </Border>
 
-            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="精度管理&#x0a;責任者" TextWrapping="Wrap" HorizontalAlignment="Center" />
+            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black"  Background="LightGray" BorderThickness="0.5">
+                <TextBlock Text="担当者" TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="9" VerticalAlignment="Center"/>
             </Border>
-            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0.5">
                 <Label Content=""/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
+                <TextBlock Text="技術管理主体" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9"/>
             </Border>
-            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0.5">
                 <Label Content=""/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Border Grid.Row="0" Grid.Column="4" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
+                <TextBlock Text="検査管理主体" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9"/>
             </Border>
-            <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+            <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0.5">
                 <Label Content=""/>
             </Border>
-            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Border Grid.Row="0" Grid.Column="5" BorderBrush="Black" Background="LightGray" BorderThickness="0.5">
+                <TextBlock Text="品質管理者" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9"/>
             </Border>
-            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <Label Content=""/>
-            </Border>
-            <Border Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
-                <TextBlock Text="担当者" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0.5,0.5,0.5">
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0.5">
                 <Label Content=""/>
             </Border>
         </Grid>
